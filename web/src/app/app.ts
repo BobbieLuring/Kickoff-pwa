@@ -1,9 +1,15 @@
 import { Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Supabase } from './supabase';
+import { Header } from './layout/header/header';
+import { BottomNav } from './layout/bottom-nav/bottom-nav';
 
 @Component({
-  imports: [RouterOutlet],
+  imports: [
+    RouterOutlet,
+    Header,
+    BottomNav
+  ],
   selector: 'app-root',
   styleUrl: './app.scss',
   templateUrl: './app.html',

@@ -1,0 +1,11 @@
+<nav>
+  @for (item of items; track item.path) {
+    <a
+      [routerLink]="item.path"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: item.path === '/' }"
+    >
+      {{ item.label }}
+    </a>
+  }
+</nav>

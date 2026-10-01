@@ -1,0 +1,29 @@
+nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  background: var(--bg);
+  border-top: 1px solid var(--line);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+a {
+  flex: 1;
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -1px;
+  border-top: 2px solid transparent;
+  color: var(--text-muted);
+  font-size: 12px;
+  text-decoration: none;
+}
+
+a.active {
+  color: var(--text);
+  font-weight: 500;
+  border-top-color: var(--accent);
+}

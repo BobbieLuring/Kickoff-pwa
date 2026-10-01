@@ -1,0 +1,22 @@
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 20px 12px;
+  border-bottom: 1.5px solid var(--accent);
+}
+
+.logo {
+  height: 22px;
+  width: auto;
+  filter: brightness(0);
+
+  @media (prefers-color-scheme: dark) {
+    filter: none;
+  }
+}
+
+.name {
+  font-size: 13px;
+  color: var(--text-muted);
+}
