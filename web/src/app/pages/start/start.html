@@ -1,4 +1,4 @@
-<form class="page">
+<form class="page" (ngSubmit)="submit()">
   <h1>Välkommen</h1>
   <p class="lead">Skriv in koden du fått.</p>
 
@@ -12,9 +12,15 @@
     placeholder="ABC123"
     [(ngModel)]="code"
   />
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  }
+  @if (roomName()) {
+    <p class="ok">Rätt kod – {{ roomName() }}</p>
+  }
 
   <div class="bottom">
-    <button type="submit" [disabled]="code().trim().length === 0">Fortsätt</button>
+    <button type="submit" [disabled]="busy() || code().trim().length === 0">Fortsätt</button>
     <a class="admin">Admin →</a>
   </div>
 </form>

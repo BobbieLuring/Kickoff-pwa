@@ -44,6 +44,20 @@ input {
   }
 }
 
+.error,
+.ok {
+  margin: 8px 0 0;
+  font-size: 13px;
+}
+
+.error {
+  color: #dc2626;
+}
+
+.ok {
+  color: var(--text-muted);
+}
+
 .bottom {
   display: flex;
   flex-direction: column;
