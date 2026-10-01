@@ -1,0 +1,20 @@
+<form class="page">
+  <h1>Välkommen</h1>
+  <p class="lead">Skriv in koden du fått.</p>
+
+  <label for="code">Rumskod</label>
+  <input
+    id="code"
+    name="code"
+    autocomplete="off"
+    autocapitalize="characters"
+    maxlength="6"
+    placeholder="ABC123"
+    [(ngModel)]="code"
+  />
+
+  <div class="bottom">
+    <button type="submit" [disabled]="code().trim().length === 0">Fortsätt</button>
+    <a class="admin">Admin →</a>
+  </div>
+</form>

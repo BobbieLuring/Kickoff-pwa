@@ -1,7 +1,9 @@
 @if (install.needsInstall) {
   <app-install-guide />
 } @else {
-  <app-header playerName="Robert" />
+  <app-header [playerName]="outsideRoom() ? '' : 'Robert'" />
   <router-outlet />
-  <app-bottom-nav />
+  @if (!outsideRoom()) {
+    <app-bottom-nav />
+  }
 }
