@@ -15,11 +15,12 @@
             <path d="M12 3v12M8 7l4-4 4 4M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7" />
           </svg>
         </span>
-        längst ner i Safari
+        eller ... längst ner i Safari/Chrome
       </li>
+      <li>Tryck på ... (Mer)</li>
       <li>Välj <strong>Lägg till på hemskärmen</strong> (scrolla ner om du inte ser den)</li>
       <li>Tryck på <strong>Lägg till</strong> uppe till höger</li>
-      <li>Klart! Öppna Kickoff från hemskärmen</li>
+      <li>Se till att bocken för "Öppna som webapp" är i-klickad, den borde vara vald som default</li>
     </ol>
 
     <p class="hint">
@@ -28,6 +29,11 @@
   } @else {
     <h1>Installera Kickoff</h1>
     <p class="intro">Appen funkar bara när den är installerad.</p>
+
+    @if (install.canPrompt()) {
+      <button class="install" type="button" (click)="install.prompt()">Installera</button>
+      <p class="fallback">Om det inte funkar kan du göra så här:</p>
+    }
 
     <ol>
       <li>Tryck på <span class="icon" aria-label="Meny">⋮</span> uppe till höger i Chrome</li>

@@ -1,9 +1,14 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { environment } from '../../environments/environment';
 
 export type Platform = 'ios' | 'android' | 'other';
 
 const BYPASS_KEY = 'kickoff.webBypass';
+
+/** Chrome's install event. Not in TypeScript's standard types, so we describe the part we use. */
+interface InstallPromptEvent extends Event {
+  prompt(): Promise<void>;
+}
 
 @Injectable({ providedIn: 'root' })
 export class Install {
@@ -12,6 +17,27 @@ export class Install {
   /** True when a phone opens the app in a browser tab instead of from the home screen. */
   readonly needsInstall =
     environment.showInstallGuide && this.platform !== 'other' && !isStandalone() && !hasBypass();
+
+  private installPrompt: InstallPromptEvent | null = null;
+
+  /** True once Chrome has said the app can be installed with a button. */
+  readonly canPrompt = signal(false);
+
+  constructor() {
+    window.addEventListener('beforeinstallprompt', (event) => {
+      event.preventDefault(); // Keep Chrome's own mini-banner from showing; we use our button.
+      this.installPrompt = event as InstallPromptEvent;
+      this.canPrompt.set(true);
+    });
+  }
+
+  async prompt(): Promise<void> {
+    if (!this.installPrompt) return;
+    await this.installPrompt.prompt();
+    // The event can only be used once.
+    this.installPrompt = null;
+    this.canPrompt.set(false);
+  }
 }
 
 function detectPlatform(): Platform {

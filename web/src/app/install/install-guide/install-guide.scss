@@ -94,3 +94,21 @@ strong {
   color: var(--text-muted);
   line-height: 1.45;
 }
+
+.install {
+  height: 48px;
+  margin-bottom: 20px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--text);
+  color: var(--bg);
+  font: inherit;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.fallback {
+  margin: 0 0 8px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
