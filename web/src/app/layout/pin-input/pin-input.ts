@@ -16,6 +16,13 @@ export class PinInput {
   protected readonly digits = signal<string[]>(Array(LENGTH).fill(''));
   private readonly boxes = viewChildren<ElementRef<HTMLInputElement>>('box');
 
+  /** Tömmer rutorna och sätter fokus på den första, t.ex. efter fel PIN. */
+  clear() {
+    this.digits.set(Array(LENGTH).fill(''));
+    this.value.set('');
+    this.boxes()[0]?.nativeElement.focus();
+  }
+
   protected onInput(index: number, event: Event) {
     const box = event.target as HTMLInputElement;
     const digit = box.value.replace(/\D/g, '').slice(-1);

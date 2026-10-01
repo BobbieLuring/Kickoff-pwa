@@ -1,0 +1,15 @@
+<form class="page" (ngSubmit)="submit()">
+  <a class="back" routerLink="../..">← Tillbaka</a>
+
+  @if (name()) {
+    <h1>Hej igen, {{ name() }}</h1>
+    <p class="lead">Skriv din PIN-kod.</p>
+
+    <app-pin-input label="PIN-kod" [(value)]="pin" />
+    @if (error()) {
+      <p class="error">{{ error() }}</p>
+    }
+
+    <button type="submit" [disabled]="busy() || locked() || pin().length !== 4">Logga in</button>
+  }
+</form>

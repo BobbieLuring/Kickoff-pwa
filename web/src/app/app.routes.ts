@@ -8,6 +8,7 @@ import { Leaderboard } from './pages/leaderboard/leaderboard';
 import { Start } from './pages/start/start';
 import { ChoosePlayer } from './pages/choose-player/choose-player';
 import { NewPlayer } from './pages/new-player/new-player';
+import { PlayerPin } from './pages/player-pin/player-pin';
 import { PlayerSession } from './player-session';
 
 // Spelsidorna kräver en inloggad spelare, annars startskärmen.
@@ -26,5 +27,6 @@ export const routes: Routes = [
   { path: 'start', component: Start, data: { outsideRoom: true } },
   { path: 'rum/:kod', component: ChoosePlayer, data: { outsideRoom: true } },
   { path: 'rum/:kod/ny', component: NewPlayer, data: { outsideRoom: true } },
+  { path: 'rum/:kod/spelare/:id', component: PlayerPin, data: { outsideRoom: true } },
   { path: '**', redirectTo: '' },
 ];

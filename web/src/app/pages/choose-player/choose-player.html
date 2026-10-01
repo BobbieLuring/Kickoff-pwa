@@ -5,9 +5,11 @@
   @if (!loading()) {
     <ul>
       @for (player of players(); track player.id) {
-        <li class="row">
-          <span>{{ player.username }}</span>
-          <span class="arrow">→</span>
+        <li>
+          <a class="row" [routerLink]="['spelare', player.id]">
+            <span>{{ player.username }}</span>
+            <span class="arrow">→</span>
+          </a>
         </li>
       }
       <li><a class="row new" routerLink="ny">+ Jag är ny</a></li>
