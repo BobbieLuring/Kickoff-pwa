@@ -1,5 +1,6 @@
+// Local Supabase stack (`npx supabase start`). Key is the CLI's fixed local-dev key.
 export const environment = {
-  supabaseUrl: 'https://pcrnvzgogpspamewmkjn.supabase.co',
-  supabaseKey: 'sb_publishable_HJhA881zDWF8ANhhjKKd8A_9WAZvVLC',
+  supabaseUrl: 'http://127.0.0.1:54321',
+  supabaseKey: 'sb_publishable_ACJWlzQHlZjBrEguHvfOxg_3BJgxAaH',
   showInstallGuide: false,
 };
