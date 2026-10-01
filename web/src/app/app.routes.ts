@@ -6,6 +6,7 @@ import { Game } from './pages/game/game';
 import { Missions } from './pages/missions/missions';
 import { Leaderboard } from './pages/leaderboard/leaderboard';
 import { Start } from './pages/start/start';
+import { ChoosePlayer } from './pages/choose-player/choose-player';
 
 // Inloggning finns inte än: ingen är i ett rum, så spelsidorna skickar till startskärmen.
 const inRoom = () => inject(Router).parseUrl('/start');
@@ -18,5 +19,6 @@ export const routes: Routes = [
   { path: 'topplista', component: Leaderboard, canActivate: [inRoom] },
   // Utanför rummet: ingen bottenmeny och inget spelarnamn.
   { path: 'start', component: Start, data: { outsideRoom: true } },
+  { path: 'rum/:kod', component: ChoosePlayer, data: { outsideRoom: true } },
   { path: '**', redirectTo: '' },
 ];

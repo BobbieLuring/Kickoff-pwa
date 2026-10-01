@@ -15,9 +15,6 @@
   @if (error()) {
     <p class="error">{{ error() }}</p>
   }
-  @if (roomName()) {
-    <p class="ok">Rätt kod – {{ roomName() }}</p>
-  }
 
   <div class="bottom">
     <button type="submit" [disabled]="busy() || code().trim().length === 0">Fortsätt</button>

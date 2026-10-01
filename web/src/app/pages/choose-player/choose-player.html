@@ -1,0 +1,16 @@
+<div class="page">
+  <h1>Vem är du?</h1>
+  <p class="lead">Välj ditt namn eller skapa en ny spelare.</p>
+
+  @if (!loading()) {
+    <ul>
+      @for (player of players(); track player.id) {
+        <li class="row">
+          <span>{{ player.username }}</span>
+          <span class="arrow">→</span>
+        </li>
+      }
+      <li class="row new">+ Jag är ny</li>
+    </ul>
+  }
+</div>

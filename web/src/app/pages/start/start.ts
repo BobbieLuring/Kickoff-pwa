@@ -1,5 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Supabase } from '../../supabase';
 
 interface CodeCheck {
@@ -17,17 +18,15 @@ interface CodeCheck {
 })
 export class Start {
   private readonly supabase = inject(Supabase).client;
+  private readonly router = inject(Router);
 
   protected readonly code = signal('');
   protected readonly busy = signal(false);
   protected readonly error = signal('');
-  // Tillfälligt tills skärmen "Vem är du?" finns.
-  protected readonly roomName = signal('');
 
   protected async submit() {
     this.busy.set(true);
     this.error.set('');
-    this.roomName.set('');
     try {
       // Anonym session per enhet, så att servern kan räkna felaktiga försök.
       const { data: session } = await this.supabase.auth.getSession();
@@ -41,7 +40,7 @@ export class Start {
       const result = data as CodeCheck;
 
       if (result.ok) {
-        this.roomName.set(result.room_name ?? '');
+        this.router.navigate(['/rum', this.code().trim().toUpperCase()]);
       } else if (result.locked_until) {
         const minutes = Math.ceil((Date.parse(result.locked_until) - Date.now()) / 60000);
         this.error.set(`För många försök. Försök igen om ${minutes} min.`);
