@@ -1,1 +1,27 @@
-<p>leaderboard works!</p>
+<h1>Topplista</h1>
+
+<ol>
+  @for (row of rows(); track row.playerId) {
+    <li
+      [class.lead]="$first"
+      [class.second]="$index === 1"
+      [class.third]="$index === 2"
+    >
+      <span class="rank">{{ row.rank }}</span>
+      <span class="name">
+        {{ row.name }}
+        @if (row.playerId === myPlayerId) {
+          <span class="you">Du</span>
+        }
+      </span>
+      <span class="change" [class.up]="row.change > 0" [class.down]="row.change < 0">
+        @if (row.change > 0) {
+          <span [attr.aria-label]="'Upp ' + row.change">↑{{ row.change }}</span>
+        } @else if (row.change < 0) {
+          <span [attr.aria-label]="'Ner ' + -row.change">↓{{ -row.change }}</span>
+        }
+      </span>
+      <span class="points">{{ row.points }}</span>
+    </li>
+  }
+</ol>

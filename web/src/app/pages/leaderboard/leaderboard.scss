@@ -1,0 +1,130 @@
+:host {
+  display: block;
+  padding: 20px 20px 0;
+}
+
+h1 {
+  margin: 0 0 16px;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  padding: 0 8px;
+  border-bottom: 1px solid var(--line);
+  font-size: 15px;
+}
+
+.rank {
+  width: 18px;
+  text-align: left;
+  font-size: 12px;
+  color: var(--text-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.name {
+  flex: 1;
+}
+
+.change {
+  width: 28px;
+  text-align: right;
+  font-size: 11px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+
+  &.up {
+    color: var(--up);
+  }
+
+  &.down {
+    color: var(--down);
+  }
+}
+
+.points {
+  font-variant-numeric: tabular-nums;
+}
+
+.lead {
+  align-items: baseline;
+  padding-bottom: 14px;
+
+  .rank {
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .name {
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+
+  .points {
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+  }
+}
+
+.second,
+.third {
+  align-items: baseline;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+.second {
+  .name,
+  .points {
+    font-weight: 500;
+  }
+
+  .name {
+    font-size: 19px;
+    letter-spacing: -0.015em;
+  }
+
+  .points {
+    font-size: 23px;
+    letter-spacing: -0.02em;
+  }
+}
+
+.third {
+  .name {
+    font-size: 17px;
+    letter-spacing: -0.01em;
+  }
+
+  .points {
+    font-size: 19px;
+    letter-spacing: -0.01em;
+  }
+}
+
+.me {
+  margin: 0 -20px;
+  padding-left: 28px;
+  padding-right: 28px;
+  background: color-mix(in srgb, var(--text) 6%, var(--bg));
+}
+
+.you {
+  margin-left: 6px;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--accent);
+}

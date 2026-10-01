@@ -1,1 +1,33 @@
-<p>home works!</p>
+<section class="intro">
+  <p class="greeting">
+    {{ summary().playerName }},<br />
+    <span class="muted">du ligger <strong>{{ rankLabel() }} plats</strong> just nu.</span>
+  </p>
+
+  <p class="score">
+    <span class="points">{{ summary().points }}</span>
+    <span class="unit">poäng</span>
+  </p>
+
+  <p class="gap">
+    @if (summary().pointsBehindLeader === 0) {
+      Du leder!
+    } @else {
+      {{ summary().pointsBehindLeader }} bakom ledaren
+    }
+  </p>
+</section>
+
+<ol class="sections">
+  @for (section of summary().sections; track section.path; let i = $index) {
+    <li>
+      <a [routerLink]="section.path" [class]="section.status">
+        <span class="num">{{ (i + 1).toString().padStart(2, '0') }}</span>
+        <span class="title">{{ section.title }}</span>
+        @if (section.status) {
+            <span class="status">{{ statusLabels[section.status] }}</span>
+        }
+      </a>
+    </li>
+  }
+</ol>
