@@ -7,9 +7,14 @@ import { Missions } from './pages/missions/missions';
 import { Leaderboard } from './pages/leaderboard/leaderboard';
 import { Start } from './pages/start/start';
 import { ChoosePlayer } from './pages/choose-player/choose-player';
+import { NewPlayer } from './pages/new-player/new-player';
+import { PlayerSession } from './player-session';
 
-// Inloggning finns inte än: ingen är i ett rum, så spelsidorna skickar till startskärmen.
-const inRoom = () => inject(Router).parseUrl('/start');
+// Spelsidorna kräver en inloggad spelare, annars startskärmen.
+const inRoom = async () => {
+  const router = inject(Router);
+  return (await inject(PlayerSession).load()) ? true : router.parseUrl('/start');
+};
 
 export const routes: Routes = [
   { path: '', component: Home, canActivate: [inRoom] },
@@ -20,5 +25,6 @@ export const routes: Routes = [
   // Utanför rummet: ingen bottenmeny och inget spelarnamn.
   { path: 'start', component: Start, data: { outsideRoom: true } },
   { path: 'rum/:kod', component: ChoosePlayer, data: { outsideRoom: true } },
+  { path: 'rum/:kod/ny', component: NewPlayer, data: { outsideRoom: true } },
   { path: '**', redirectTo: '' },
 ];

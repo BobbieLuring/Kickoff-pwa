@@ -1,0 +1,21 @@
+.pin {
+  display: flex;
+  gap: 12px;
+}
+
+input {
+  width: 52px;
+  height: 52px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 20px;
+  text-align: center;
+
+  &:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+}

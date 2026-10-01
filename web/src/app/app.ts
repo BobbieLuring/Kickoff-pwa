@@ -6,6 +6,7 @@ import { Header } from './layout/header/header';
 import { BottomNav } from './layout/bottom-nav/bottom-nav';
 import { Install } from './install/install';
 import { InstallGuide } from './install/install-guide/install-guide';
+import { PlayerSession } from './player-session';
 
 @Component({
   imports: [RouterOutlet, Header, BottomNav, InstallGuide],
@@ -15,6 +16,7 @@ import { InstallGuide } from './install/install-guide/install-guide';
 })
 export class App {
   protected readonly install = inject(Install);
+  protected readonly player = inject(PlayerSession);
   private readonly route = inject(ActivatedRoute);
 
   /** True on pages marked `data: { outsideRoom: true }`, e.g. the start screen. */

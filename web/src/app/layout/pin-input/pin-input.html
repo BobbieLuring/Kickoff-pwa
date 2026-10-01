@@ -1,0 +1,15 @@
+<div class="pin" role="group" [attr.aria-label]="label()">
+  @for (digit of digits(); track $index) {
+    <input
+      #box
+      type="password"
+      inputmode="numeric"
+      autocomplete="off"
+      maxlength="1"
+      [value]="digit"
+      [attr.aria-label]="label() + ', siffra ' + ($index + 1)"
+      (input)="onInput($index, $event)"
+      (keydown)="onKeydown($index, $event)"
+    />
+  }
+</div>

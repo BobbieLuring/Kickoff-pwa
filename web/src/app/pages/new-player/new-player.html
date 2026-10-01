@@ -1,0 +1,26 @@
+<form class="page" (ngSubmit)="submit()">
+  <a class="back" routerLink="..">← Tillbaka</a>
+  <h1>Ny spelare</h1>
+
+  <label for="name">Namn</label>
+  <input
+    id="name"
+    name="name"
+    autocomplete="off"
+    maxlength="30"
+    placeholder="Ditt namn"
+    [(ngModel)]="name"
+  />
+
+  <span class="label">Välj PIN-kod</span>
+  <app-pin-input label="Välj PIN-kod" [(value)]="pin" />
+
+  <span class="label">Upprepa PIN-kod</span>
+  <app-pin-input label="Upprepa PIN-kod" [(value)]="pinAgain" />
+
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  }
+
+  <button type="submit" [disabled]="!canSubmit()">Gå med</button>
+</form>

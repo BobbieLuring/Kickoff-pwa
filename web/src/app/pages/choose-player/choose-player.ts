@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Supabase } from '../../supabase';
 
 interface Player {
@@ -14,7 +14,7 @@ interface RoomPlayers {
 }
 
 @Component({
-  imports: [],
+  imports: [RouterLink],
   selector: 'app-choose-player',
   styleUrl: './choose-player.scss',
   templateUrl: './choose-player.html',
