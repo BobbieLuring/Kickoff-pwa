@@ -1,3 +1,7 @@
-<app-header playerName="Robert" />
-<router-outlet />
-<app-bottom-nav />
+@if (install.needsInstall) {
+  <app-install-guide />
+} @else {
+  <app-header playerName="Robert" />
+  <router-outlet />
+  <app-bottom-nav />
+}
