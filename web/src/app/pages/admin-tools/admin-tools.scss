@@ -9,7 +9,22 @@ h1 {
 }
 
 .lead {
-  margin: 0;
+  margin: 0 0 24px;
   font-size: 14px;
   color: var(--text-muted);
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 52px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  font-size: 15px;
+}
+
+.code {
+  font-weight: 500;
+  letter-spacing: 1px;
 }

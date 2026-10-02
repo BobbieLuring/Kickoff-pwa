@@ -7,6 +7,8 @@ export interface CurrentPlayer {
   room_name: string;
   /** Spelaren är admin (styr Admin-fliken; behörigheten kontrolleras i databasen). */
   is_admin: boolean;
+  /** Rummets kod, bara för admin (annars `null` från servern). */
+  room_code: string | null;
 }
 
 /** Spelaren som är inloggad på den här enheten. */
