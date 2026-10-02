@@ -1,0 +1,30 @@
+<form class="page" (ngSubmit)="submit()">
+  <a class="back" routerLink="/start">← Tillbaka</a>
+  <h1>Admin</h1>
+  <p class="lead">Logga in för att hantera rum.</p>
+
+  <label for="email">E-post</label>
+  <input
+    id="email"
+    name="email"
+    type="email"
+    autocomplete="username"
+    placeholder="namn@exempel.se"
+    [(ngModel)]="email"
+  />
+
+  <label for="password">Lösenord</label>
+  <input
+    id="password"
+    name="password"
+    type="password"
+    autocomplete="current-password"
+    [(ngModel)]="password"
+  />
+
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  }
+
+  <button type="submit" [disabled]="busy() || !email().trim() || !password()">Logga in</button>
+</form>

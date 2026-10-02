@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Supabase } from '../../supabase';
 
 interface CodeCheck {
@@ -11,7 +11,7 @@ interface CodeCheck {
 }
 
 @Component({
-  imports: [FormsModule],
+  imports: [FormsModule, RouterLink],
   selector: 'app-start',
   styleUrl: './start.scss',
   templateUrl: './start.html',

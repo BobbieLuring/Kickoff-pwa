@@ -1,6 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Data, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter, map } from 'rxjs';
 import { Header } from './layout/header/header';
 import { BottomNav } from './layout/bottom-nav/bottom-nav';
@@ -16,19 +16,29 @@ import { PlayerSession } from './player-session';
 })
 export class App {
   protected readonly install = inject(Install);
-  protected readonly player = inject(PlayerSession);
+  private readonly player = inject(PlayerSession);
   private readonly route = inject(ActivatedRoute);
 
-  /** True on pages marked `data: { outsideRoom: true }`, e.g. the start screen. */
-  protected readonly outsideRoom = toSignal(
+  /** Route-data för sidan som visas. */
+  private readonly data = toSignal(
     inject(Router).events.pipe(
       filter((e) => e instanceof NavigationEnd),
-      map(() => {
+      map((): Data => {
         let r = this.route.snapshot;
         while (r.firstChild) r = r.firstChild;
-        return r.data['outsideRoom'] === true;
+        return r.data;
       }),
     ),
-    { initialValue: true },
+    { initialValue: { outsideRoom: true } as Data },
+  );
+
+  /** True on pages marked `data: { outsideRoom: true }`, e.g. the start screen. */
+  protected readonly outsideRoom = computed(() => this.data()['outsideRoom'] === true);
+
+  /** Texten till höger i headern: `data.header` (t.ex. "Admin"), annars spelarens namn i rummet. */
+  protected readonly headerText = computed(
+    () =>
+      this.data()['header'] ??
+      (this.outsideRoom() ? '' : (this.player.current()?.username ?? '')),
   );
 }
