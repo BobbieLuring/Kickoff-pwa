@@ -5,6 +5,8 @@ export interface CurrentPlayer {
   id: string;
   username: string;
   room_name: string;
+  /** Spelaren är admin (styr Admin-fliken; behörigheten kontrolleras i databasen). */
+  is_admin: boolean;
 }
 
 /** Spelaren som är inloggad på den här enheten. */

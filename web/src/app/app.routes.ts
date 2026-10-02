@@ -12,6 +12,7 @@ import { PlayerPin } from './pages/player-pin/player-pin';
 import { AdminLogin } from './pages/admin-login/admin-login';
 import { Admin } from './pages/admin/admin';
 import { AdminNewRoom } from './pages/admin-new-room/admin-new-room';
+import { AdminTools } from './pages/admin-tools/admin-tools';
 import { PlayerSession } from './player-session';
 import { AdminSession } from './admin-session';
 
@@ -30,6 +31,14 @@ const isAdmin = async () => {
   return admin ? true : router.parseUrl('/admin/logga-in');
 };
 
+// Admin-fliken i rummet kräver att spelaren är admin; andra skickas till Home (eller start).
+const adminInRoom = async () => {
+  const router = inject(Router);
+  const player = await inject(PlayerSession).load();
+  if (!player) return router.parseUrl('/start');
+  return player.is_admin ? true : router.parseUrl('/');
+};
+
 const adminPage = { outsideRoom: true, adminPage: true };
 
 export const routes: Routes = [
@@ -38,6 +47,7 @@ export const routes: Routes = [
   { path: 'spel', component: Game, canActivate: [inRoom] },
   { path: 'uppdrag', component: Missions, canActivate: [inRoom] },
   { path: 'topplista', component: Leaderboard, canActivate: [inRoom] },
+  { path: 'verktyg', component: AdminTools, canActivate: [adminInRoom] },
   // Utanför rummet: ingen bottenmeny och inget spelarnamn.
   { path: 'start', component: Start, data: { outsideRoom: true } },
   { path: 'rum/:kod', component: ChoosePlayer, data: { outsideRoom: true } },

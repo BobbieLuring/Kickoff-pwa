@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { PlayerSession } from '../../player-session';
 
 @Component({
   selector: 'app-bottom-nav',
@@ -8,11 +9,20 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   styleUrl: './bottom-nav.scss',
 })
 export class BottomNav {
-  protected readonly items = [
+  private readonly player = inject(PlayerSession);
+
+  private readonly baseItems = [
     { label: 'Hem', path: '/' },
     { label: 'Svara', path: '/svara' },
     { label: 'Spel', path: '/spel' },
     { label: 'Uppdrag', path: '/uppdrag' },
     { label: 'Topplista', path: '/topplista' },
   ];
+
+  // Admin-fliken visas bara för admin; sidan skyddas även av routen och databasen.
+  protected readonly items = computed(() =>
+    this.player.current()?.is_admin
+      ? [...this.baseItems, { label: 'Admin', path: '/verktyg' }]
+      : this.baseItems,
+  );
 }

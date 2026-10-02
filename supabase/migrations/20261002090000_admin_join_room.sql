@@ -1,10 +1,11 @@
 -- Admin går med i ett rum som spelare med sitt namn, utan PIN.
 
--- Namnet admin har som spelare. Befintliga admins får delen före @ i e-posten (ändra i Studio).
+-- Namnet admin har som spelare. Befintliga admins får delen före @ i e-posten, högst 30 tecken
+-- (ändra i Studio).
 alter table public.admins add column name text;
 
 update public.admins a
-set name = split_part(u.email, '@', 1)
+set name = left(split_part(u.email, '@', 1), 30)
 from auth.users u
 where u.id = a.user_id;
 
