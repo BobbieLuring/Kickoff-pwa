@@ -1,6 +1,41 @@
 <div class="page">
   <h1>Dina rum</h1>
-  <p class="lead">Inloggad som {{ email() }}.</p>
+  <p class="lead">Gå med i ett rum eller skapa ett nytt.</p>
 
-  <button type="button" class="link" (click)="signOut()">Logga ut</button>
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  }
+
+  @if (rooms(); as rooms) {
+    <ul>
+      @for (room of rooms; track room.id) {
+        <li>
+          @if (room.closed_at) {
+            <div class="row closed">
+              <span>
+                <span class="name">{{ room.name }}</span>
+                <span class="code">{{ room.code }} · avslutat</span>
+              </span>
+            </div>
+          } @else {
+            <!-- Admin går direkt till "Vem är du?" i rummet, utan att skriva koden. -->
+            <a class="row" [routerLink]="['/rum', room.code]">
+              <span>
+                <span class="name">{{ room.name }}</span>
+                <span class="code">{{ room.code }}</span>
+              </span>
+              <span class="arrow">→</span>
+            </a>
+          }
+        </li>
+      } @empty {
+        <li class="empty">Inga rum än.</li>
+      }
+    </ul>
+  }
+
+  <div class="bottom">
+    <a class="button" routerLink="/admin/nytt-rum">Skapa nytt rum</a>
+    <button type="button" class="link" (click)="signOut()">Logga ut {{ email() }}</button>
+  </div>
 </div>

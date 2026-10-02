@@ -1,0 +1,36 @@
+<form class="page" (ngSubmit)="create()">
+  <a class="back" routerLink="/admin">← Tillbaka</a>
+  <h1>Nytt rum</h1>
+
+  <label for="name">Namn på rummet</label>
+  <input
+    id="name"
+    name="name"
+    autocomplete="off"
+    maxlength="60"
+    placeholder="Kickoff 2026"
+    [readonly]="room() !== null"
+    [(ngModel)]="name"
+  />
+
+  @if (room(); as room) {
+    <span class="label">Rumskod</span>
+    <div class="code-box">
+      <span class="code">{{ room.code }}</span>
+      <button type="button" class="link" [disabled]="busy()" (click)="newCode()">Ny kod</button>
+    </div>
+    <p class="hint">Dela koden med deltagarna.</p>
+  }
+
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  }
+
+  <div class="bottom">
+    @if (room()) {
+      <a class="button" routerLink="/admin">Klar</a>
+    } @else {
+      <button type="submit" class="button" [disabled]="busy() || !name().trim()">Skapa rum</button>
+    }
+  </div>
+</form>

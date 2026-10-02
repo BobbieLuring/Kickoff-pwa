@@ -1,4 +1,7 @@
 .page {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100dvh - 110px);
   padding: 28px 20px 24px;
 }
 
@@ -14,7 +17,83 @@ h1 {
   color: var(--text-muted);
 }
 
+.error {
+  margin: 0 0 16px;
+  font-size: 13px;
+  color: #dc2626;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 60px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--text);
+  text-decoration: none;
+}
+
+.name {
+  display: block;
+}
+
+.code {
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+}
+
+.closed {
+  color: var(--text-faint);
+
+  .code {
+    color: var(--text-faint);
+  }
+}
+
+.arrow {
+  color: var(--text-muted);
+}
+
+.empty {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.bottom {
+  display: flex;
+  flex-direction: column;
+  margin-top: auto;
+  padding-top: 24px;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 52px;
+  border-radius: 8px;
+  background: var(--text);
+  color: var(--bg);
+  font-weight: 600;
+  text-decoration: none;
+}
+
 .link {
+  align-self: center;
+  margin-top: 14px;
   padding: 0;
   border: 0;
   background: none;

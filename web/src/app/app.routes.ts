@@ -11,6 +11,7 @@ import { NewPlayer } from './pages/new-player/new-player';
 import { PlayerPin } from './pages/player-pin/player-pin';
 import { AdminLogin } from './pages/admin-login/admin-login';
 import { Admin } from './pages/admin/admin';
+import { AdminNewRoom } from './pages/admin-new-room/admin-new-room';
 import { PlayerSession } from './player-session';
 import { AdminSession } from './admin-session';
 
@@ -45,5 +46,6 @@ export const routes: Routes = [
   // Admin: ingen bottenmeny, "Admin" i headern.
   { path: 'admin/logga-in', component: AdminLogin, data: adminPage },
   { path: 'admin', component: Admin, canActivate: [isAdmin], data: adminPage },
+  { path: 'admin/nytt-rum', component: AdminNewRoom, canActivate: [isAdmin], data: adminPage },
   { path: '**', redirectTo: '' },
 ];

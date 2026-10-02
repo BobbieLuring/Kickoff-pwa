@@ -24,6 +24,7 @@ insert into public.admins (user_id) values ('00000000-0000-0000-0000-0000000000a
 
 -- Testrum så att startskärmen kan provas innan admin-sidorna finns.
 insert into public.rooms (name, code) values ('Testrum', 'KICK26');
+insert into public.rooms (name, code, closed_at) values ('Avslutat testrum', 'GAMMAL', now());
 
 -- Testspelare med PIN 1234, tills "Ny spelare" finns.
 insert into public.players (room_id, username, pin_hash)
