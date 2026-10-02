@@ -20,7 +20,7 @@ values (
   'email', now(), now(), now()
 );
 
-insert into public.admins (user_id) values ('00000000-0000-0000-0000-0000000000ad');
+insert into public.admins (user_id, name) values ('00000000-0000-0000-0000-0000000000ad', 'Admin_kickoff');
 
 -- Testrum så att startskärmen kan provas innan admin-sidorna finns.
 insert into public.rooms (name, code) values ('Testrum', 'KICK26');

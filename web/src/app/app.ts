@@ -7,6 +7,7 @@ import { BottomNav } from './layout/bottom-nav/bottom-nav';
 import { Install } from './install/install';
 import { InstallGuide } from './install/install-guide/install-guide';
 import { PlayerSession } from './player-session';
+import { AdminSession } from './admin-session';
 
 @Component({
   imports: [RouterOutlet, Header, BottomNav, InstallGuide],
@@ -17,6 +18,7 @@ import { PlayerSession } from './player-session';
 export class App {
   protected readonly install = inject(Install);
   private readonly player = inject(PlayerSession);
+  private readonly admin = inject(AdminSession);
   private readonly route = inject(ActivatedRoute);
 
   /** Route-data för sidan som visas. */
@@ -35,10 +37,12 @@ export class App {
   /** True on pages marked `data: { outsideRoom: true }`, e.g. the start screen. */
   protected readonly outsideRoom = computed(() => this.data()['outsideRoom'] === true);
 
-  /** Texten till höger i headern: `data.header` (t.ex. "Admin"), annars spelarens namn i rummet. */
-  protected readonly headerText = computed(
-    () =>
-      this.data()['header'] ??
-      (this.outsideRoom() ? '' : (this.player.current()?.username ?? '')),
-  );
+  /**
+   * Texten till höger i headern: på adminsidor admins namn ("Admin" innan inloggning),
+   * i rummet spelarens namn, annars inget.
+   */
+  protected readonly headerText = computed(() => {
+    if (this.data()['adminPage']) return this.admin.name() ?? 'Admin';
+    return this.outsideRoom() ? '' : (this.player.current()?.username ?? '');
+  });
 }

@@ -18,14 +18,14 @@
               </span>
             </div>
           } @else {
-            <!-- Admin går direkt till "Vem är du?" i rummet, utan att skriva koden. -->
-            <a class="row" [routerLink]="['/rum', room.code]">
+            <!-- Admin går in som sig själv, utan kod och utan PIN. -->
+            <button type="button" class="row" [disabled]="busy()" (click)="join(room)">
               <span>
                 <span class="name">{{ room.name }}</span>
                 <span class="code">{{ room.code }}</span>
               </span>
               <span class="arrow">→</span>
-            </a>
+            </button>
           }
         </li>
       } @empty {

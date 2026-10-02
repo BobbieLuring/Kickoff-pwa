@@ -41,6 +41,17 @@ ul {
   text-decoration: none;
 }
 
+button.row {
+  width: 100%;
+  border-top: 0;
+  border-right: 0;
+  border-left: 0;
+  background: none;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
 .name {
   display: block;
 }

@@ -1,6 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AdminSession } from '../../admin-session';
+import { PlayerSession } from '../../player-session';
 import { Supabase } from '../../supabase';
 
 interface Room {
@@ -20,8 +21,10 @@ export class Admin implements OnInit {
   private readonly supabase = inject(Supabase).client;
   private readonly admin = inject(AdminSession);
   private readonly router = inject(Router);
+  private readonly player = inject(PlayerSession);
 
   protected readonly email = signal('');
+  protected readonly busy = signal(false);
   protected readonly rooms = signal<Room[] | null>(null);
   protected readonly error = signal('');
 
@@ -33,6 +36,31 @@ export class Admin implements OnInit {
       return;
     }
     this.rooms.set(data as Room[]);
+  }
+
+  /** Går in i rummet som spelare med admins namn (utan PIN) och öppnar Home. */
+  protected async join(room: Room) {
+    this.busy.set(true);
+    this.error.set('');
+    try {
+      const { data, error } = await this.supabase.rpc('admin_join_room', { p_room_id: room.id });
+      if (error) throw error;
+      const result = data as { ok: boolean; error?: string; name?: string };
+      if (!result.ok) {
+        this.error.set(
+          result.error === 'name_taken'
+            ? `Det finns redan en spelare som heter ${result.name} i ${room.name}.`
+            : 'Rummet finns inte längre eller är avslutat.',
+        );
+        return;
+      }
+      this.player.reset();
+      this.router.navigateByUrl('/');
+    } catch (e) {
+      this.error.set(`Något gick fel: ${(e as Error).message}`);
+    } finally {
+      this.busy.set(false);
+    }
   }
 
   protected async signOut() {

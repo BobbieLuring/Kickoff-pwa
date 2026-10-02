@@ -30,7 +30,7 @@ const isAdmin = async () => {
   return admin ? true : router.parseUrl('/admin/logga-in');
 };
 
-const adminPage = { outsideRoom: true, header: 'Admin' };
+const adminPage = { outsideRoom: true, adminPage: true };
 
 export const routes: Routes = [
   { path: '', component: Home, canActivate: [inRoom] },
@@ -43,7 +43,7 @@ export const routes: Routes = [
   { path: 'rum/:kod', component: ChoosePlayer, data: { outsideRoom: true } },
   { path: 'rum/:kod/ny', component: NewPlayer, data: { outsideRoom: true } },
   { path: 'rum/:kod/spelare/:id', component: PlayerPin, data: { outsideRoom: true } },
-  // Admin: ingen bottenmeny, "Admin" i headern.
+  // Admin: ingen bottenmeny, admins namn i headern.
   { path: 'admin/logga-in', component: AdminLogin, data: adminPage },
   { path: 'admin', component: Admin, canActivate: [isAdmin], data: adminPage },
   { path: 'admin/nytt-rum', component: AdminNewRoom, canActivate: [isAdmin], data: adminPage },
