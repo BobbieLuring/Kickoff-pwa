@@ -1,4 +1,4 @@
-import { Component, ElementRef, input, model, signal, viewChildren } from '@angular/core';
+import { afterNextRender, Component, ElementRef, input, model, signal, viewChildren } from '@angular/core';
 
 const LENGTH = 4;
 
@@ -12,6 +12,15 @@ export class PinInput {
   /** Siffrorna hittills; komplett när längden är 4. */
   readonly value = model('');
   readonly label = input('PIN-kod');
+
+  /** Put focus in the first box when the component is shown. */
+  readonly focusOnLoad = input(false);
+
+  constructor() {
+    afterNextRender(() => {
+      if (this.focusOnLoad()) this.boxes()[0]?.nativeElement.focus();
+    });
+  }
 
   protected readonly digits = signal<string[]>(Array(LENGTH).fill(''));
   private readonly boxes = viewChildren<ElementRef<HTMLInputElement>>('box');

@@ -5,7 +5,7 @@
     <h1>Hej igen, {{ name() }}</h1>
     <p class="lead">Skriv din PIN-kod.</p>
 
-    <app-pin-input label="PIN-kod" [(value)]="pin" />
+        <app-pin-input label="PIN-kod" [(value)]="pin" [focusOnLoad]="true" />
     @if (error()) {
       <p class="error">{{ error() }}</p>
     }
