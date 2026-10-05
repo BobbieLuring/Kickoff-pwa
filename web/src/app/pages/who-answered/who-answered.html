@@ -1,1 +1,149 @@
-<p>who-answered works!</p>
+<div class="page">
+  <h1>Vem svarade?</h1>
+
+  @switch (state()?.phase) {
+    @case ('closed') {
+      <p class="lead">Inte öppnad än. Värden öppnar den snart.</p>
+    }
+
+    @case ('answering') {
+      @if (saved() && !editing()) {
+        <div class="done">
+          <p class="done-title">Dina svar är skickade</p>
+          <p class="lead">Gissningen börjar när värden öppnar den.</p>
+          <a class="primary" routerLink="/">Till startsidan</a>
+          <button type="button" class="link" (click)="editAnswers()">Ändra svar</button>
+        </div>
+      } @else {
+        <p class="lead">Svara på frågorna. Sen får alla gissa vem som skrev vad.</p>
+
+        <form (submit)="$event.preventDefault(); submit()">
+          @for (q of questions(); track q.id; let i = $index) {
+            <label [for]="'answer-' + q.id">
+              <span class="num">{{ (i + 1).toString().padStart(2, '0') }}</span>
+              {{ q.text }}
+            </label>
+            <input
+              [id]="'answer-' + q.id"
+              maxlength="200"
+              autocomplete="off"
+              enterkeyhint="next"
+              [value]="drafts()[q.id] ?? ''"
+              (input)="setDraft(q.id, $any($event.target).value)"
+            />
+          }
+
+          @if (error()) {
+            <p class="error">{{ error() }}</p>
+          }
+
+          <button type="submit" [disabled]="!canSubmit()">Skicka svar</button>
+        </form>
+      }
+    }
+
+    @case ('guessing') {
+      @if (guessDone()) {
+        <div class="done">
+          <p class="done-title">Alla gissningar sparade</p>
+          @if (unguessed() > 0) {
+            <p class="warning">{{ unguessed() }} svar saknar gissning.</p>
+          }
+          <p class="lead">Resultatet visas när värden avslutar.</p>
+          <a class="primary" routerLink="/">Till startsidan</a>
+          <button type="button" class="link" (click)="backToGuessing()">Gå tillbaka</button>
+        </div>
+      } @else if (card(); as c) {
+        <p class="progress">
+          {{ index() + 1 }} av {{ cards().length }}
+          @if (unguessed() > 0) {
+            · {{ unguessed() }} kvar att gissa
+          } @else {
+            · alla gissade
+          }
+        </p>
+
+        <div class="card">
+          <p class="question">{{ c.question }}</p>
+          <p class="answer">{{ c.text }}</p>
+        </div>
+
+        <p class="pick">Vem skrev det?</p>
+        <div class="names">
+          @for (p of players(); track p.id) {
+            <button
+              type="button"
+              class="name"
+              [class.chosen]="c.my_guess === p.id"
+              (click)="guess(p.id)"
+            >
+              {{ p.username }}
+            </button>
+          }
+        </div>
+
+        @if (error()) {
+          <p class="error">{{ error() }}</p>
+        }
+
+        <div class="steps">
+          <button type="button" class="step" [disabled]="index() === 0" (click)="previous()">
+            ← Föregående
+          </button>
+          <button type="button" class="step" (click)="next()">
+            {{ isLastCard() ? 'Klar' : 'Nästa →' }}
+          </button>
+        </div>
+      } @else {
+        <p class="lead">Det finns inga svar att gissa på.</p>
+      }
+    }
+
+    @case ('finished') {
+      <p class="summary">
+        Du fick <strong>{{ state()?.my_points ?? 0 }}</strong> poäng
+        @if (myRank()) {
+          · {{ myRank() }} plats
+        }
+      </p>
+      <p class="lead">{{ correctCount() }} av {{ guessableCount() }} rätt</p>
+
+      <ol class="scores">
+        @for (s of scores(); track s.player_id) {
+          <li>
+            <span class="rank">{{ s.rank }}</span>
+            <span class="who">
+              {{ s.username }}
+              @if (s.player_id === myPlayerId()) {
+                <span class="you">Du</span>
+              }
+            </span>
+            <span class="points">{{ s.points }}</span>
+          </li>
+        }
+      </ol>
+
+      <h2>Vem skrev vad?</h2>
+      @for (group of resultGroups(); track group.question) {
+        <h3>{{ group.question }}</h3>
+        <ul class="reveal">
+          @for (r of group.answers; track $index) {
+            <li>
+              <span class="answer-text">{{ r.text }}</span>
+              <span class="author">{{ r.author }}</span>
+              @if (r.mine) {
+                <span class="verdict">Ditt svar</span>
+              } @else if (r.correct) {
+                <span class="verdict right">Rätt</span>
+              } @else if (r.my_guess) {
+                <span class="verdict wrong">Du gissade {{ r.my_guess }}</span>
+              } @else {
+                <span class="verdict">Ingen gissning</span>
+              }
+            </li>
+          }
+        </ul>
+      }
+    }
+  }
+</div>

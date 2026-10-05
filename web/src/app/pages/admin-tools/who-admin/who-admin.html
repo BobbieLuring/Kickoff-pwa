@@ -1,0 +1,49 @@
+@if (overview(); as o) {
+  <section>
+    <div class="head">
+      <h2>Vem svarade?</h2>
+      <span class="phase">{{ phaseLabel() }}</span>
+    </div>
+
+    <ol class="questions">
+      @for (q of o.questions; track q.id) {
+        <li>
+          <span class="text">{{ q.text }}</span>
+          @if (o.phase === 'closed') {
+            <button type="button" class="remove" [disabled]="busy()" (click)="remove(q.id)">
+              Ta bort
+            </button>
+          }
+        </li>
+      } @empty {
+        <li class="empty">Inga frågor än.</li>
+      }
+    </ol>
+
+    @if (o.phase === 'closed') {
+      <form class="add" (ngSubmit)="add()">
+        <input name="question" maxlength="200" placeholder="Ny fråga" [(ngModel)]="newQuestion" />
+        <button type="submit" [disabled]="busy() || !newQuestion().trim()">Lägg till</button>
+      </form>
+    }
+
+    @if (o.phase === 'answering' || o.phase === 'guessing') {
+      <p class="count">{{ o.answered_count }} av {{ o.player_count }} har svarat</p>
+    }
+
+    @if (error()) {
+      <p class="error">{{ error() }}</p>
+    }
+
+    @if (nextAction(); as label) {
+      <button
+        type="button"
+        class="advance"
+        [disabled]="busy() || (o.phase === 'closed' && o.questions.length === 0)"
+        (click)="advance()"
+      >
+        {{ label }}
+      </button>
+    }
+  </section>
+}

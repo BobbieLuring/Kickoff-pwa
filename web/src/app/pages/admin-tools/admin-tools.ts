@@ -1,9 +1,10 @@
 import { Component, computed, inject } from '@angular/core';
 import { PlayerSession } from '../../player-session';
+import { WhoAdmin } from './who-admin/who-admin';
 
 /** Admin-fliken i rummet. Adminfunktionerna läggs till här steg för steg. */
 @Component({
-  imports: [],
+  imports: [WhoAdmin],
   selector: 'app-admin-tools',
   styleUrl: './admin-tools.scss',
   templateUrl: './admin-tools.html',

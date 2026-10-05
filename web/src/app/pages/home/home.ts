@@ -1,6 +1,7 @@
 import { Component, computed, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { HomeSummary, SectionStatus } from './home-summary';
+import { swedishOrdinal } from '../../swedish-ordinal';
 
 @Component({
   selector: 'app-home',
@@ -30,12 +31,4 @@ export class Home {
     open: 'Öppen',
     closed: 'Avslutad',
   };
-}
-
-// 1:a, 2:a, 3:e … 11:e, 12:e … 21:a, 22:a
-function swedishOrdinal(n: number): string {
-  const last = n % 10;
-  const lastTwo = n % 100;
-  const suffix = (last === 1 || last === 2) && lastTwo !== 11 && lastTwo !== 12 ? 'a' : 'e';
-  return `${n}:${suffix}`;
 }
