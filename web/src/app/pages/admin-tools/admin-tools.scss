@@ -28,3 +28,21 @@ h1 {
   font-weight: 500;
   letter-spacing: 1px;
 }
+
+.row + .row {
+  border-top: 0;
+}
+
+.label {
+  flex: 1;
+}
+
+.new-code {
+  margin-left: 12px;
+  padding: 6px 0;
+  border: 0;
+  background: none;
+  color: var(--text-muted);
+  font: inherit;
+  font-size: 13px;
+}

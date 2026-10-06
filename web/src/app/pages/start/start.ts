@@ -5,6 +5,7 @@ import { Supabase } from '../../supabase';
 
 interface CodeCheck {
   ok: boolean;
+  kind?: 'room' | 'editor';
   room_name?: string;
   attempts_left?: number;
   locked_until?: string | null;
@@ -35,11 +36,14 @@ export class Start {
         if (error) throw error;
       }
 
-      const { data, error } = await this.supabase.rpc('check_room_code', { p_code: this.code() });
+      // Rumskod eller redaktörskod: servern avgör vilken det är.
+      const { data, error } = await this.supabase.rpc('enter_code', { p_code: this.code() });
       if (error) throw error;
       const result = data as CodeCheck;
 
-      if (result.ok) {
+      if (result.ok && result.kind === 'editor') {
+        this.router.navigateByUrl('/redigera');
+      } else if (result.ok) {
         this.router.navigate(['/rum', this.code().trim().toUpperCase()]);
       } else if (result.locked_until) {
         const minutes = Math.ceil((Date.parse(result.locked_until) - Date.now()) / 60000);

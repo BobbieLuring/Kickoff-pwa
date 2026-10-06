@@ -1,9 +1,9 @@
-export type SectionStatus = 'soon' | 'open' | 'closed';
+import { SectionStatus } from '../../room-sections';
 
 export interface SectionSummary {
   title: string;
   path: string;
-  status?: SectionStatus;
+  status: SectionStatus;
 }
 
 export interface HomeSummary {

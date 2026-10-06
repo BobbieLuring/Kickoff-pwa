@@ -10,7 +10,7 @@
       <span class="rank">{{ row.rank }}</span>
       <span class="name">
         {{ row.name }}
-        @if (row.playerId === myPlayerId) {
+        @if (row.playerId === myPlayerId()) {
           <span class="you">Du</span>
         }
       </span>

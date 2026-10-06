@@ -1,0 +1,50 @@
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+
+li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.pos {
+  width: 16px;
+  font-size: 12px;
+  color: var(--text-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+  font-size: 16px;
+}
+
+.moves {
+  display: flex;
+  gap: 6px;
+
+  button {
+    width: 44px;
+    height: 44px;
+    margin: 0;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--text);
+    font: inherit;
+    font-size: 18px;
+    font-weight: 400;
+
+    &:disabled {
+      opacity: 0.3;
+    }
+  }
+}

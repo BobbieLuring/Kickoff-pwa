@@ -1,0 +1,55 @@
+.page {
+  padding: 20px 20px 24px;
+}
+
+h1 {
+  margin: 0 0 16px;
+  font-size: 22px;
+  font-weight: 500;
+}
+
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+
+a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  border-bottom: 1px solid var(--line);
+  color: var(--text);
+  font-size: 15px;
+  text-decoration: none;
+
+  &.soon,
+  &.closed {
+    color: var(--text-faint);
+  }
+}
+
+.num {
+  font-size: 11px;
+  color: var(--text-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.title {
+  flex: 1;
+}
+
+.status {
+  font-size: 12px;
+}
+
+.open .status {
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: 11px;
+  font-weight: 500;
+}

@@ -1,0 +1,72 @@
+<div class="page">
+  <h1>Redigera</h1>
+  <p class="lead">Du lägger in Sortera-rundorna för <strong>{{ roomName() }}</strong>.</p>
+
+  @if (editingId() === undefined) {
+    <ol class="rounds">
+      @for (r of rounds(); track r.id) {
+        <li [class.locked]="r.phase !== 'closed'">
+          <div class="info">
+            <span class="title">{{ r.title }}</span>
+            <span class="phase">{{ phaseLabels[r.phase] }}</span>
+          </div>
+          @if (r.phase === 'closed') {
+            <button type="button" class="text" (click)="edit(r)">Redigera</button>
+            <button type="button" class="text" (click)="remove(r)">Ta bort</button>
+          }
+        </li>
+      } @empty {
+        <li class="empty">Inga rundor än.</li>
+      }
+    </ol>
+
+    @if (error()) {
+      <p class="error">{{ error() }}</p>
+    }
+
+    <button type="button" class="primary" (click)="newRound()">Ny runda</button>
+  } @else {
+    <form (submit)="$event.preventDefault(); save()">
+      <label for="title">Titel</label>
+      <input
+        id="title"
+        maxlength="120"
+        placeholder="Sortera från längst till kortast"
+        [value]="title()"
+        (input)="title.set($any($event.target).value)"
+      />
+
+      <p class="hint">Lägg raderna i rätt ordning, den som ska stå först överst.</p>
+
+      <app-sort-list [(items)]="rows">
+        <ng-template let-row>
+          <div class="row-fields">
+            <input
+              maxlength="40"
+              placeholder="Namn"
+              aria-label="Namn"
+              [value]="row.label"
+              (input)="row.label = $any($event.target).value"
+            />
+            <input
+              maxlength="40"
+              placeholder="Värde, t.ex. 188 cm"
+              aria-label="Värde"
+              [value]="row.value"
+              (input)="row.value = $any($event.target).value"
+            />
+          </div>
+        </ng-template>
+      </app-sort-list>
+
+      @if (error()) {
+        <p class="error">{{ error() }}</p>
+      }
+
+      <div class="actions">
+        <button type="button" class="secondary" (click)="cancel()">Avbryt</button>
+        <button type="submit" class="primary" [disabled]="busy()">Spara</button>
+      </div>
+    </form>
+  }
+</div>

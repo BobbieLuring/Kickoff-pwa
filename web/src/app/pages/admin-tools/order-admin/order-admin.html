@@ -1,0 +1,40 @@
+@if (overview(); as o) {
+  <section>
+    <h2>Sortera</h2>
+
+    <ol class="rounds">
+      @for (r of o.rounds; track r.id) {
+        <li>
+          <div class="info">
+            <span class="title">{{ r.title }}</span>
+            <span class="phase">
+              {{ phaseLabels[r.phase] }}
+              @if (r.phase === 'open') {
+                · {{ r.submitted_count }} av {{ o.player_count }} har skickat
+              }
+              @if (r.phase === 'closed' && !r.ready) {
+                · saknar namn
+              }
+            </span>
+          </div>
+
+          @if (r.phase === 'closed') {
+            <button type="button" class="action" [disabled]="busy() || !r.ready" (click)="advance(r)">
+              Öppna
+            </button>
+          } @else if (r.phase === 'open') {
+            <button type="button" class="action" [disabled]="busy()" (click)="advance(r)">
+              Avsluta
+            </button>
+          }
+        </li>
+      } @empty {
+        <li class="empty">Inga rundor än. Redaktören lägger in dem.</li>
+      }
+    </ol>
+
+    @if (error()) {
+      <p class="error">{{ error() }}</p>
+    }
+  </section>
+}

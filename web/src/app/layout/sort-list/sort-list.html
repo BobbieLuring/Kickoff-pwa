@@ -1,0 +1,14 @@
+<ol>
+  @for (item of items(); track item; let i = $index, first = $first, last = $last) {
+    <li>
+      <span class="pos">{{ i + 1 }}</span>
+      <div class="content">
+        <ng-container *ngTemplateOutlet="row(); context: { $implicit: item, index: i }" />
+      </div>
+      <div class="moves">
+        <button type="button" [disabled]="first" aria-label="Flytta upp" (click)="move(i, -1)">↑</button>
+        <button type="button" [disabled]="last" aria-label="Flytta ner" (click)="move(i, 1)">↓</button>
+      </div>
+    </li>
+  }
+</ol>

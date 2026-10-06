@@ -1,0 +1,64 @@
+<div class="page">
+  <h1>Sortera</h1>
+
+  @for (r of rounds(); track r.id; let i = $index) {
+    <section class="round" [class]="r.phase">
+      <div class="head">
+        <span class="num">{{ (i + 1).toString().padStart(2, '0') }}</span>
+        <h2>{{ r.title }}</h2>
+        @if (r.phase === 'closed') {
+          <span class="status">Snart</span>
+        }
+      </div>
+
+      @switch (r.phase) {
+        @case ('open') {
+          @if (r.my_order && !editing()[r.id]) {
+            <div class="done">
+              <p class="done-title">Skickat</p>
+              <p class="lead">Du kan ändra tills värden stänger rundan.</p>
+              <button type="button" class="secondary" (click)="edit(r.id)">Ändra</button>
+            </div>
+          } @else {
+            <app-sort-list [items]="drafts()[r.id] ?? []" (itemsChange)="setDraft(r.id, $event)">
+              <ng-template let-item>{{ item.label }}</ng-template>
+            </app-sort-list>
+
+            @if (error()) {
+              <p class="error">{{ error() }}</p>
+            }
+
+            <button type="button" class="primary" [disabled]="busy()" (click)="submit(r)">Skicka</button>
+          }
+        }
+
+        @case ('finished') {
+          <p class="result">
+            @if (r.my_order) {
+              {{ r.correct_pairs }} av 15 par rätt · <strong>{{ r.points }}</strong> poäng
+            } @else {
+              Du skickade ingen ordning.
+            }
+          </p>
+
+          <ol class="correct">
+            @for (c of r.correct; track c.id; let pos = $index) {
+              <li>
+                <span class="pos">{{ pos + 1 }}</span>
+                <span class="label">{{ c.label }}</span>
+                <span class="value">{{ c.value }}</span>
+                @if (myPosition(r, c.id); as mine) {
+                  <span class="mine" [class.hit]="mine === pos + 1">du: {{ mine }}</span>
+                }
+              </li>
+            }
+          </ol>
+        }
+      }
+    </section>
+  } @empty {
+    <p class="lead">Inga rundor än.</p>
+  }
+
+  <a class="back" routerLink="/aktiviteter">← Aktiviteter</a>
+</div>

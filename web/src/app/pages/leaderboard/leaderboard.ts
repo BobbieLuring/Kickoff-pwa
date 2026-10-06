@@ -1,4 +1,5 @@
-import { Component, computed, effect, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal, untracked } from '@angular/core';
+import { LeaderboardData } from '../../leaderboard-data';
 import { LeaderboardEntry } from './leaderboard-entry';
 import { loadLastSeenRanks, saveLastSeenRanks } from './last-seen-ranks';
 
@@ -9,35 +10,38 @@ import { loadLastSeenRanks, saveLastSeenRanks } from './last-seen-ranks';
   templateUrl: './leaderboard.html',
 })
 export class Leaderboard {
-  // Fake data until scores exist in Supabase.
-  protected readonly myPlayerId = 'p3';
+  private readonly data = inject(LeaderboardData);
 
-  protected readonly entries = signal<LeaderboardEntry[]>([
-    { playerId: 'p1', name: 'Anna', points: 140, rank: 1 },
-    { playerId: 'p2', name: 'Johan', points: 131, rank: 2 },
-    { playerId: 'p3', name: 'Robert', points: 128, rank: 3 },
-    { playerId: 'p4', name: 'Sara', points: 117, rank: 4 },
-    { playerId: 'p5', name: 'Erik', points: 104, rank: 5 },
-    { playerId: 'p6', name: 'Lina', points: 98, rank: 6 },
-    { playerId: 'p7', name: 'Oskar', points: 85, rank: 7 },
-    { playerId: 'p8', name: 'Maja', points: 72, rank: 8 },
-  ]);
+  protected readonly entries = this.data.entries;
+  protected readonly myPlayerId = this.data.myPlayerId;
+  protected readonly loaded = this.data.loaded;
 
-  // Ranks from the previous visit. Read once, so arrows stay put during this visit.
-  private readonly baseline = loadLastSeenRanks();
+  // Ranks from the previous visit. Read once when the list first arrives, so arrows stay put
+  // during this visit even if new points come in.
+  private readonly baseline = signal<Record<string, number> | null>(null);
 
   protected readonly rows = computed(() =>
     this.entries().map((entry) => ({ ...entry, change: this.rankChange(entry) })),
   );
 
   constructor() {
-    // Whatever is shown now becomes the baseline for the next visit.
-    effect(() => saveLastSeenRanks(this.entries()));
+    this.data.start();
+
+    effect(() => {
+      if (!this.loaded()) return;
+      const me = this.myPlayerId();
+      const entries = this.entries();
+      untracked(() => {
+        if (this.baseline() === null) this.baseline.set(loadLastSeenRanks(me));
+      });
+      // Whatever is shown now becomes the baseline for the next visit.
+      saveLastSeenRanks(me, entries);
+    });
   }
 
   /** Positive = moved up, negative = moved down, 0 = same or new. */
   private rankChange(entry: LeaderboardEntry): number {
-    const previous = this.baseline[entry.playerId];
+    const previous = this.baseline()?.[entry.playerId];
     return previous === undefined ? 0 : previous - entry.rank;
   }
 }
