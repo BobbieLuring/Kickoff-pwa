@@ -1,11 +1,5 @@
 .page {
-  padding: 20px 20px 24px;
-}
-
-h1 {
-  margin: 0 0 6px;
-  font-size: 22px;
-  font-weight: 500;
+  padding: 8px 20px 24px;
 }
 
 .lead {
@@ -21,18 +15,10 @@ form {
 }
 
 label {
-  display: flex;
-  gap: 10px;
   margin: 16px 0 8px;
   font-size: 15px;
+  font-weight: 500;
   line-height: 1.4;
-}
-
-.num {
-  padding-top: 2px;
-  font-size: 11px;
-  color: var(--text-faint);
-  font-variant-numeric: tabular-nums;
 }
 
 input {

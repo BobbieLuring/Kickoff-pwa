@@ -1,17 +1,12 @@
 import { Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { STOPS } from '../../itinerary';
 import { LeaderboardData } from '../../leaderboard-data';
 import { PlayerSession } from '../../player-session';
-import { RoomSections, STATUS_LABELS } from '../../room-sections';
+import { RoomSections } from '../../room-sections';
 import { swedishOrdinal } from '../../swedish-ordinal';
-import { HomeSummary, SectionSummary } from './home-summary';
-
-/** Aktiviteterna på startsidan, i ordning. `key` är nyckeln i tabellen sections. */
-const SECTIONS = [
-  { key: 'who', title: 'Vem svarade?', path: '/aktiviteter/vem-svarade' },
-  { key: 'game', title: 'Spel', path: '/spel' },
-  { key: 'missions', title: 'Uppdrag', path: '/uppdrag' },
-];
+import { HomeSummary } from './home-summary';
+import { NEXT_STOP_PHRASES } from './next-stop-phrases';
 
 @Component({
   selector: 'app-home',
@@ -24,7 +19,11 @@ export class Home {
   private readonly sections = inject(RoomSections);
   private readonly player = inject(PlayerSession);
 
-  protected readonly statusLabels = STATUS_LABELS;
+  protected readonly greeting = greetingFor(new Date().getHours());
+
+  /** Slumpas en gång när sidan öppnas, så att texten inte byts medan man tittar. */
+  protected readonly nextStopPhrase =
+    NEXT_STOP_PHRASES[Math.floor(Math.random() * NEXT_STOP_PHRASES.length)];
 
   protected readonly summary = computed<HomeSummary | null>(() => {
     if (!this.leaderboard.loaded()) return null;
@@ -32,17 +31,11 @@ export class Home {
     const me = entries.find((e) => e.playerId === this.leaderboard.myPlayerId());
     if (!me) return null;
     const leaderPoints = entries[0]?.points ?? 0;
-    const sections: SectionSummary[] = SECTIONS.map((s) => ({
-      title: s.title,
-      path: s.path,
-      status: this.sections.status(s.key),
-    }));
     return {
       playerName: this.player.current()?.username ?? me.name,
       points: me.points,
       rank: me.rank,
       pointsBehindLeader: leaderPoints - me.points,
-      sections,
     };
   });
 
@@ -51,8 +44,20 @@ export class Home {
     return s ? swedishOrdinal(s.rank) : '';
   });
 
+  /** Första stoppet på resplanen som är öppet just nu, eller null. */
+  protected readonly nextStop = computed(
+    () => STOPS.find((s) => this.sections.combinedStatus(s.keys) === 'open') ?? null,
+  );
+
   constructor() {
     this.leaderboard.start();
     this.sections.start();
   }
+}
+
+function greetingFor(hour: number): string {
+  if (hour < 5) return 'Uppe sent';
+  if (hour < 10) return 'God morgon';
+  if (hour < 18) return 'Hej';
+  return 'God kväll';
 }

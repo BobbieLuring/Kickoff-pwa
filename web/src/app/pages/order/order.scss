@@ -1,42 +1,37 @@
 .page {
-  padding: 20px 20px 24px;
+  padding: 8px 20px 24px;
 }
 
 h1 {
-  margin: 0 0 16px;
-  font-size: 22px;
-  font-weight: 500;
+  margin-bottom: 16px;
 }
 
 .round {
   padding: 16px 0 20px;
   border-top: 1px solid var(--line);
 
-  &.closed h2,
-  &.closed .num {
+  &:first-of-type {
+    border-top: 2px solid var(--text);
+  }
+
+  &.closed h2 {
     color: var(--text-faint);
   }
 }
 
 .head {
   display: flex;
-  align-items: baseline;
-  gap: 10px;
+  align-items: center;
+  gap: 12px;
   margin-bottom: 12px;
 
   h2 {
     flex: 1;
     margin: 0;
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 500;
     line-height: 1.35;
   }
-}
-
-.num {
-  font-size: 11px;
-  color: var(--text-faint);
-  font-variant-numeric: tabular-nums;
 }
 
 .status {
@@ -76,8 +71,16 @@ h1 {
   }
 }
 
+// "Gå tillbaka" är en länk men ska se ut som knappen.
+a.primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
 .secondary {
-  margin-top: 0;
+  margin-top: 8px;
   border: 1px solid var(--line);
   background: transparent;
   color: var(--text);

@@ -4,8 +4,8 @@
   "display": "standalone",
   "scope": "./",
   "start_url": "./",
-  "theme_color": "#f4f2ee",
-  "background_color": "#f4f2ee",
+  "theme_color": "#efebe3",
+  "background_color": "#efebe3",
   "icons": [
     {
       "src": "favicons/web-app-manifest-192x192.png",

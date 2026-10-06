@@ -1,5 +1,5 @@
 <div class="page">
-  <h1>Vem svarade?</h1>
+  <h1 class="page-title">Vem svarade?</h1>
 
   @switch (state()?.phase) {
     @case ('closed') {
@@ -11,18 +11,15 @@
         <div class="done">
           <p class="done-title">Dina svar är skickade</p>
           <p class="lead">Gissningen börjar när värden öppnar den.</p>
-          <a class="primary" routerLink="/">Till startsidan</a>
-          <button type="button" class="link" (click)="editAnswers()">Ändra svar</button>
+          <a class="primary" routerLink="/">Gå tillbaka</a>
+          <button type="button" class="link" (click)="editAnswers()">Ändra svaren</button>
         </div>
       } @else {
         <p class="lead">Svara på frågorna. Sen får alla gissa vem som skrev vad.</p>
 
         <form (submit)="$event.preventDefault(); submit()">
-          @for (q of questions(); track q.id; let i = $index) {
-            <label [for]="'answer-' + q.id">
-              <span class="num">{{ (i + 1).toString().padStart(2, '0') }}</span>
-              {{ q.text }}
-            </label>
+          @for (q of questions(); track q.id) {
+            <label [for]="'answer-' + q.id">{{ q.text }}</label>
             <input
               [id]="'answer-' + q.id"
               maxlength="200"
@@ -50,8 +47,8 @@
             <p class="warning">{{ unguessed() }} svar saknar gissning.</p>
           }
           <p class="lead">Resultatet visas när värden avslutar.</p>
-          <a class="primary" routerLink="/">Till startsidan</a>
-          <button type="button" class="link" (click)="backToGuessing()">Gå tillbaka</button>
+          <a class="primary" routerLink="/">Gå tillbaka</a>
+          <button type="button" class="link" (click)="backToGuessing()">Ändra svaren</button>
         </div>
       } @else if (card(); as c) {
         <p class="progress">

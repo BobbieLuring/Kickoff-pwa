@@ -1,13 +1,26 @@
 <div class="page">
-  <h1>Aktiviteter</h1>
+  <h1 class="page-title">Resplan</h1>
+  <p class="page-lead">Stopp för stopp, i värdens takt.</p>
 
-  <ol>
-    @for (item of items(); track item.key; let i = $index) {
-      <li>
-        <a [routerLink]="item.path" [class]="item.status">
-          <span class="num">{{ (i + 1).toString().padStart(2, '0') }}</span>
-          <span class="title">{{ item.title }}</span>
-          <span class="status">{{ statusLabels[item.status] }}</span>
+  <ol class="route">
+    @for (stop of stops(); track stop.path; let last = $last) {
+      <li [class]="stop.status">
+        <a [routerLink]="stop.path">
+          <span class="rail" aria-hidden="true">
+            <span class="dot"></span>
+            @if (!last) {
+              <span class="line"></span>
+            }
+          </span>
+          <span class="body">
+            <span class="title">{{ stop.title }}</span>
+            <span class="text">{{ stop.text }}</span>
+            @if (stop.status === 'open') {
+              <span class="stamp open">Öppen nu</span>
+            } @else if (stop.status === 'closed') {
+              <span class="stamp done">Avklarad</span>
+            }
+          </span>
         </a>
       </li>
     }

@@ -1,6 +1,6 @@
 :host {
   display: block;
-  padding: 20px 20px 0;
+  padding: 4px 16px 24px;
 }
 
 p {
@@ -8,87 +8,103 @@ p {
 }
 
 .greeting {
-  font-size: 15px;
-  line-height: 1.4;
+  margin: 4px 4px 16px;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
 }
 
-.muted {
-  color: var(--text-muted);
-
-  strong {
-    color: var(--text);
-    font-weight: 500;
-  }
+// Boardingkortet: mörkt i ljust läge, ljust i mörkt läge.
+.pass {
+  border-radius: 16px;
+  background: var(--text);
+  color: var(--bg);
 }
 
-.score {
+.top {
+  padding: 16px 18px 14px;
+}
+
+.label {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+.name {
+  margin-top: 2px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.figures {
   display: flex;
-  align-items: baseline;
-  gap: 8px;
+  justify-content: space-between;
+  align-items: flex-end;
   margin-top: 14px;
 }
 
-.points {
-  font-size: 52px;
-  font-weight: 500;
-  letter-spacing: -0.04em;
-  line-height: 1;
-  font-variant-numeric: tabular-nums;
+.big {
+  font-size: 64px;
 }
 
-.unit {
+.accent {
+  color: var(--accent-inverse);
+}
+
+.right {
+  text-align: right;
+}
+
+// Perforeringen med två urklipp i kanterna, som på en biljett.
+.tear {
+  position: relative;
+  margin: 0 14px;
+  border-top: 2px dashed color-mix(in srgb, var(--bg) 35%, transparent);
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: -11px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--bg);
+  }
+
+  &::before {
+    left: -24px;
+  }
+
+  &::after {
+    right: -24px;
+  }
+}
+
+.bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px 16px;
+}
+
+.value {
+  margin-top: 2px;
+  font-size: 14px;
+}
+
+.hint {
+  display: block;
+  margin: 16px 4px 0;
   font-size: 13px;
   color: var(--text-muted);
-}
+  text-decoration: none;
 
-.gap {
-  margin-top: 6px;
-  font-size: 12px;
-  color: var(--text-muted);
-}
-
-.sections {
-  list-style: none;
-  margin: 24px 0 0;
-  padding: 0;
-  border-top: 1px solid var(--line);
-
-  a {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    min-height: 52px;
-    border-bottom: 1px solid var(--line);
+  &.open {
     color: var(--text);
-    font-size: 15px;
-    text-decoration: none;
+    font-weight: 500;
   }
-
-  .soon,
-  .closed {
-    color: var(--text-faint);
-  }
-}
-
-.num {
-  font-size: 11px;
-  color: var(--text-faint);
-  font-variant-numeric: tabular-nums;
-}
-
-.title {
-  flex: 1;
-}
-
-.status {
-  font-size: 12px;
-}
-
-.open .status {
-  padding: 3px 8px;
-  border-radius: 4px;
-  background: var(--accent);
-  color: var(--on-accent);
-  font-size: 11px;
-  font-weight: 500;
 }

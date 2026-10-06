@@ -1,33 +1,46 @@
 @if (summary(); as s) {
-  <section class="intro">
-    <p class="greeting">
-      {{ s.playerName }},<br />
-      <span class="muted">du ligger <strong>{{ rankLabel() }} plats</strong> just nu.</span>
-    </p>
+  <h1 class="greeting">{{ greeting }},<br />{{ s.playerName }}.</h1>
 
-    <p class="score">
-      <span class="points">{{ s.points }}</span>
-      <span class="unit">poäng</span>
-    </p>
+  <section class="pass" aria-label="Ditt boardingkort">
+    <div class="top">
+      <p class="label">Passagerare</p>
+      <p class="name">{{ s.playerName }}</p>
 
-    <p class="gap">
-      @if (s.pointsBehindLeader === 0) {
-        Du leder!
-      } @else {
-        {{ s.pointsBehindLeader }} bakom ledaren
-      }
-    </p>
+      <div class="figures">
+        <div>
+          <p class="label">Poäng</p>
+          <p class="display big">{{ s.points }}</p>
+        </div>
+        <div class="right">
+          <p class="label">Plats</p>
+          <p class="display big accent">{{ rankLabel() }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tear" aria-hidden="true"></div>
+
+    <div class="bottom">
+      <div>
+        <p class="label">Bakom ledaren</p>
+        <p class="value">
+          @if (s.pointsBehindLeader === 0) {
+            Du leder!
+          } @else {
+            {{ s.pointsBehindLeader }} poäng
+          }
+        </p>
+      </div>
+      <div class="right">
+        <p class="label">Nästa stopp</p>
+        <p class="value">{{ nextStopPhrase }}</p>
+      </div>
+    </div>
   </section>
 
-  <ol class="sections">
-    @for (section of s.sections; track section.path; let i = $index) {
-      <li>
-        <a [routerLink]="section.path" [class]="section.status">
-          <span class="num">{{ (i + 1).toString().padStart(2, '0') }}</span>
-          <span class="title">{{ section.title }}</span>
-          <span class="status">{{ statusLabels[section.status] }}</span>
-        </a>
-      </li>
-    }
-  </ol>
+  @if (nextStop(); as stop) {
+    <a class="hint open" [routerLink]="stop.path">Värden har öppnat något. Gå och kolla →</a>
+  } @else {
+    <p class="hint">Inget är öppet just nu. Värden förbereder nästa stopp.</p>
+  }
 }

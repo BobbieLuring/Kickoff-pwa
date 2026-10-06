@@ -24,6 +24,20 @@ export class Leaderboard {
     this.entries().map((entry) => ({ ...entry, change: this.rankChange(entry) })),
   );
 
+  /** The top three on the podium, in display order 2–1–3. Only shown with at least three players. */
+  protected readonly podium = computed(() => {
+    const rows = this.rows();
+    if (rows.length < 3) return [];
+    return [
+      { ...rows[1], place: 2 },
+      { ...rows[0], place: 1 },
+      { ...rows[2], place: 3 },
+    ];
+  });
+
+  /** Everyone below the podium (or everyone, when there's no podium). */
+  protected readonly rest = computed(() => this.rows().slice(this.podium().length));
+
   constructor() {
     this.data.start();
 

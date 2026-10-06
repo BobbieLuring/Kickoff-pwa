@@ -1,13 +1,33 @@
-<h1>Topplista</h1>
+<h1 class="page-title">Topplista</h1>
 
-<ol>
-  @for (row of rows(); track row.playerId) {
-    <li
-      [class.lead]="$first"
-      [class.second]="$index === 1"
-      [class.third]="$index === 2"
-    >
-      <span class="rank">{{ row.rank }}</span>
+@if (podium().length) {
+  <div class="podium">
+    @for (p of podium(); track p.playerId) {
+      <div class="step" [class]="'step place-' + p.place">
+        <span class="name">
+          {{ p.name }}
+          @if (p.playerId === myPlayerId()) {
+            <span class="you">Du</span>
+          }
+        </span>
+        <span class="display points">{{ p.points }}</span>
+        <span class="change" [class.up]="p.change > 0" [class.down]="p.change < 0">
+          @if (p.change > 0) {
+            <span [attr.aria-label]="'Upp ' + p.change">↑{{ p.change }}</span>
+          } @else if (p.change < 0) {
+            <span [attr.aria-label]="'Ner ' + -p.change">↓{{ -p.change }}</span>
+          }
+        </span>
+        <span class="block"><span class="display">{{ p.rank }}</span></span>
+      </div>
+    }
+  </div>
+}
+
+<ol class="rest">
+  @for (row of rest(); track row.playerId) {
+    <li>
+      <span class="display rank">{{ row.rank }}</span>
       <span class="name">
         {{ row.name }}
         @if (row.playerId === myPlayerId()) {
@@ -21,7 +41,7 @@
           <span [attr.aria-label]="'Ner ' + -row.change">↓{{ -row.change }}</span>
         }
       </span>
-      <span class="points">{{ row.points }}</span>
+      <span class="display points">{{ row.points }}</span>
     </li>
   }
 </ol>

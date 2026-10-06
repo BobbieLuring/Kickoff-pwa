@@ -10,7 +10,7 @@ nav {
   bottom: 0;
   display: flex;
   background: var(--bg);
-  border-top: 1px solid var(--line);
+  border-top: 1.5px solid var(--text);
   padding-bottom: env(safe-area-inset-bottom);
 }
 
@@ -20,8 +20,6 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: -1px;
-  border-top: 2px solid transparent;
   color: var(--text-muted);
   font-size: 12px;
   text-decoration: none;
@@ -29,6 +27,5 @@ a {
 
 a.active {
   color: var(--text);
-  font-weight: 500;
-  border-top-color: var(--accent);
+  font-weight: 700;
 }

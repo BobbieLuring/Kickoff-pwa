@@ -1,47 +1,126 @@
 :host {
   display: block;
-  padding: 20px 20px 0;
+  padding: 8px 20px 24px;
 }
 
 h1 {
-  margin: 0 0 16px;
-  font-size: 18px;
-  font-weight: 500;
+  margin-bottom: 16px;
 }
 
-ol {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
+// ── Pallen ──────────────────────────────────────────────────────
 
-li {
+.podium {
   display: flex;
-  align-items: center;
-  gap: 12px;
-  min-height: 44px;
-  padding: 0 8px;
-  border-bottom: 1px solid var(--line);
-  font-size: 15px;
+  align-items: flex-end;
+  gap: 6px;
+  padding-bottom: 0;
+  border-bottom: 2px solid var(--text);
 }
 
-.rank {
-  width: 18px;
-  text-align: left;
-  font-size: 12px;
-  color: var(--text-faint);
-  font-variant-numeric: tabular-nums;
-}
-
-.name {
+.step {
   flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  text-align: center;
+
+  .name {
+    max-width: 100%;
+    overflow: hidden;
+    font-size: 13px;
+    font-weight: 500;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .points {
+    font-size: 24px;
+  }
+
+  .change {
+    min-height: 14px;
+  }
+}
+
+.block {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 4px;
+  padding-top: 6px;
+  border-radius: 8px 8px 0 0;
+  color: var(--bg);
+
+  .display {
+    font-size: 26px;
+  }
+}
+
+.place-1 {
+  .name {
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  .points {
+    font-size: 30px;
+  }
+
+  .block {
+    height: 96px;
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+}
+
+.place-2 .block {
+  height: 70px;
+  background: var(--text-muted);
+}
+
+.place-3 .block {
+  height: 52px;
+  background: var(--text);
+}
+
+// ── Resten av listan ────────────────────────────────────────────
+
+.rest {
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    min-height: 44px;
+    padding: 10px 8px;
+    border-bottom: 1px solid var(--line);
+    font-size: 15px;
+  }
+
+  .rank {
+    width: 18px;
+    font-size: 18px;
+  }
+
+  .name {
+    flex: 1;
+  }
+
+  .points {
+    font-size: 20px;
+  }
 }
 
 .change {
-  width: 28px;
-  text-align: right;
+  min-width: 24px;
   font-size: 11px;
   font-weight: 500;
+  text-align: right;
   font-variant-numeric: tabular-nums;
 
   &.up {
@@ -53,78 +132,10 @@ li {
   }
 }
 
-.points {
-  font-variant-numeric: tabular-nums;
-}
-
-.lead {
-  align-items: baseline;
-  padding-bottom: 14px;
-
-  .rank {
-    color: var(--accent);
-    font-weight: 500;
-  }
-
-  .name {
-    font-size: 22px;
-    font-weight: 500;
-    letter-spacing: -0.02em;
-  }
-
-  .points {
-    font-size: 28px;
-    font-weight: 500;
-    letter-spacing: -0.03em;
-  }
-}
-
-.second,
-.third {
-  align-items: baseline;
-  padding-top: 6px;
-  padding-bottom: 6px;
-}
-
-.second {
-  .name,
-  .points {
-    font-weight: 500;
-  }
-
-  .name {
-    font-size: 19px;
-    letter-spacing: -0.015em;
-  }
-
-  .points {
-    font-size: 23px;
-    letter-spacing: -0.02em;
-  }
-}
-
-.third {
-  .name {
-    font-size: 17px;
-    letter-spacing: -0.01em;
-  }
-
-  .points {
-    font-size: 19px;
-    letter-spacing: -0.01em;
-  }
-}
-
-.me {
-  margin: 0 -20px;
-  padding-left: 28px;
-  padding-right: 28px;
-  background: color-mix(in srgb, var(--text) 6%, var(--bg));
-}
-
 .you {
-  margin-left: 6px;
+  margin-left: 4px;
   font-size: 10px;
-  font-weight: 500;
+  font-weight: 700;
   color: var(--accent);
+  text-transform: uppercase;
 }

@@ -1,13 +1,16 @@
 <div class="page">
-  <h1>Sortera</h1>
+  <h1 class="page-title">Sortera</h1>
 
-  @for (r of rounds(); track r.id; let i = $index) {
+  @for (r of rounds(); track r.id) {
     <section class="round" [class]="r.phase">
       <div class="head">
-        <span class="num">{{ (i + 1).toString().padStart(2, '0') }}</span>
         <h2>{{ r.title }}</h2>
         @if (r.phase === 'closed') {
           <span class="status">Snart</span>
+        } @else if (r.phase === 'open') {
+          <span class="stamp open">Öppen nu</span>
+        } @else {
+          <span class="stamp done">Avklarad</span>
         }
       </div>
 
@@ -17,7 +20,8 @@
             <div class="done">
               <p class="done-title">Skickat</p>
               <p class="lead">Du kan ändra tills värden stänger rundan.</p>
-              <button type="button" class="secondary" (click)="edit(r.id)">Ändra</button>
+              <a class="primary" routerLink="/">Gå tillbaka</a>
+              <button type="button" class="secondary" (click)="edit(r.id)">Ändra svaren</button>
             </div>
           } @else {
             <app-sort-list [items]="drafts()[r.id] ?? []" (itemsChange)="setDraft(r.id, $event)">
