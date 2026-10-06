@@ -65,19 +65,18 @@
           <p class="answer">{{ c.text }}</p>
         </div>
 
-        <p class="pick">Vem skrev det?</p>
-        <div class="names">
+        <label class="pick" for="guess">Vem skrev det?</label>
+        <select
+          id="guess"
+          class="guess-select"
+          [class.chosen]="!!c.my_guess"
+          (change)="guess($any($event.target).value)"
+        >
+          <option value="" disabled [selected]="!c.my_guess">Välj person</option>
           @for (p of players(); track p.id) {
-            <button
-              type="button"
-              class="name"
-              [class.chosen]="c.my_guess === p.id"
-              (click)="guess(p.id)"
-            >
-              {{ p.username }}
-            </button>
+            <option [value]="p.id" [selected]="c.my_guess === p.id">{{ p.username }}</option>
           }
-        </div>
+        </select>
 
         @if (error()) {
           <p class="error">{{ error() }}</p>

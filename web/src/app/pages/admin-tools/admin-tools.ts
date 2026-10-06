@@ -4,10 +4,11 @@ import { Supabase } from '../../supabase';
 import { WhoAdmin } from './who-admin/who-admin';
 import { OrderAdmin } from './order-admin/order-admin';
 import { GamesAdmin } from './games-admin/games-admin';
+import { PhotoAdmin } from './photo-admin/photo-admin';
 
 /** Admin-fliken i rummet. Adminfunktionerna läggs till här steg för steg. */
 @Component({
-  imports: [WhoAdmin, OrderAdmin, GamesAdmin],
+  imports: [WhoAdmin, OrderAdmin, GamesAdmin, PhotoAdmin],
   selector: 'app-admin-tools',
   styleUrl: './admin-tools.scss',
   templateUrl: './admin-tools.html',

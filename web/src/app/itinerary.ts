@@ -35,6 +35,12 @@ export const STOPS: Stop[] = [
     path: '/uppdrag',
     openText: 'Ditt hemliga uppdrag väntar',
   },
+  {
+    keys: ['photo'],
+    title: 'Vems bild?',
+    path: '/aktiviteter/vems-bild',
+    openText: 'Gissa vems bilden är',
+  },
 ];
 
 /** Texter för stopp som inte har öppnat än. Varieras så att listan inte säger samma sak överallt. */

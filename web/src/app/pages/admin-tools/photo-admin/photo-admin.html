@@ -1,0 +1,22 @@
+@if (overview(); as o) {
+  <section>
+    <div class="head">
+      <h2>Vems bild?</h2>
+      <span class="phase">{{ phaseLabel() }}</span>
+    </div>
+
+    @if (o.phase !== 'closed') {
+      <p class="count">{{ o.uploaded_count }} av {{ o.player_count }} har laddat upp</p>
+    }
+
+    @if (error()) {
+      <p class="error">{{ error() }}</p>
+    }
+
+    @if (nextAction(); as label) {
+      <button type="button" class="advance" [disabled]="busy()" (click)="advance()">
+        {{ label }}
+      </button>
+    }
+  </section>
+}

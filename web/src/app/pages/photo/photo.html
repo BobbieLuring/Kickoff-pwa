@@ -1,0 +1,153 @@
+<div class="page">
+  <h1 class="page-title">Vems bild?</h1>
+
+  @switch (state()?.phase) {
+    @case ('closed') {
+      <p class="page-lead">Inte öppnad än. Värden öppnar den snart.</p>
+    }
+
+    @case ('uploading') {
+      @if (state()?.my_path; as path) {
+        <div class="done">
+          <p class="done-title">Din bild är uppladdad</p>
+          <p class="page-lead">Gissningen börjar när värden öppnar den.</p>
+          @if (urls()[path]; as url) {
+            <img class="photo" [src]="url" alt="Din uppladdade bild" />
+          }
+          <a class="primary" routerLink="/">Gå tillbaka</a>
+        </div>
+      } @else if (previewUrl(); as url) {
+        <p class="page-lead">Så här blir din bild.</p>
+        <img class="photo" [src]="url" alt="Förhandsvisning av din bild" />
+        <p class="warning">Du kan inte byta bild efter att du laddat upp.</p>
+
+        @if (error()) {
+          <p class="error">{{ error() }}</p>
+        }
+
+        <button type="button" class="primary" [disabled]="busy()" (click)="upload()">
+          {{ busy() ? 'Laddar upp…' : 'Ladda upp den här bilden' }}
+        </button>
+        <button type="button" class="link" [disabled]="busy()" (click)="chooseAnother()">Välj en annan</button>
+      } @else {
+        <p class="page-lead">Välj en bild från ditt bildbibliotek. Sen gissar alla vems bilden är.</p>
+
+        @if (error()) {
+          <p class="error">{{ error() }}</p>
+        }
+
+        <label class="primary file" [class.disabled]="busy()">
+          {{ busy() ? 'Förbereder bilden…' : 'Välj bild' }}
+          <input type="file" accept="image/*" [disabled]="busy()" (change)="onFile($event)" />
+        </label>
+      }
+    }
+
+    @case ('guessing') {
+      @if (guessDone()) {
+        <div class="done">
+          <p class="done-title">Alla gissningar sparade</p>
+          @if (unguessed() > 0) {
+            <p class="warning">{{ unguessed() }} bilder saknar gissning.</p>
+          }
+          <p class="page-lead">Resultatet visas när värden avslutar.</p>
+          <a class="primary" routerLink="/">Gå tillbaka</a>
+          <button type="button" class="link" (click)="backToGuessing()">Ändra svaren</button>
+        </div>
+      } @else if (card(); as c) {
+        <p class="progress">
+          {{ index() + 1 }} av {{ cards().length }}
+          @if (unguessed() > 0) {
+            · {{ unguessed() }} kvar att gissa
+          } @else {
+            · alla gissade
+          }
+        </p>
+
+        @if (urls()[c.path]; as url) {
+          <img class="photo" [src]="url" alt="Bild att gissa på" />
+        } @else {
+          <div class="photo loading">Laddar bilden…</div>
+        }
+
+        <label class="pick" for="guess">Vems bild är det?</label>
+        <select
+          id="guess"
+          class="guess-select"
+          [class.chosen]="!!c.my_guess"
+          (change)="guess($any($event.target).value)"
+        >
+          <option value="" disabled [selected]="!c.my_guess">Välj person</option>
+          @for (p of players(); track p.id) {
+            <option [value]="p.id" [selected]="c.my_guess === p.id">{{ p.username }}</option>
+          }
+        </select>
+
+        @if (error()) {
+          <p class="error">{{ error() }}</p>
+        }
+
+        <div class="steps">
+          <button type="button" class="step" [disabled]="index() === 0" (click)="previous()">
+            ← Föregående
+          </button>
+          <button type="button" class="step" (click)="next()">
+            {{ isLastCard() ? 'Klar' : 'Nästa →' }}
+          </button>
+        </div>
+      } @else {
+        <p class="page-lead">Det finns inga bilder att gissa på.</p>
+      }
+    }
+
+    @case ('finished') {
+      <p class="summary">
+        Du fick <strong>{{ state()?.my_points ?? 0 }}</strong> poäng
+        @if (myRank()) {
+          · {{ myRank() }} plats
+        }
+      </p>
+      <p class="page-lead">{{ correctCount() }} av {{ guessableCount() }} rätt</p>
+
+      <ol class="scores">
+        @for (s of scores(); track s.player_id) {
+          <li>
+            <span class="display rank">{{ s.rank }}</span>
+            <span class="who">
+              {{ s.username }}
+              @if (s.player_id === myPlayerId()) {
+                <span class="you">Du</span>
+              }
+            </span>
+            <span class="display points">{{ s.points }}</span>
+          </li>
+        }
+      </ol>
+
+      <h2>Vems var bilden?</h2>
+      <ul class="reveal">
+        @for (r of results(); track r.path) {
+          <li>
+            @if (urls()[r.path]; as url) {
+              <img [src]="url" [alt]="'Bild av ' + r.owner" />
+            } @else {
+              <div class="thumb-loading"></div>
+            }
+            <span class="owner">{{ r.owner }}</span>
+            @if (r.mine) {
+              <span class="verdict">Din bild</span>
+            } @else if (r.correct) {
+              <span class="verdict right">Rätt</span>
+            } @else if (r.my_guess) {
+              <span class="verdict wrong">Du gissade {{ r.my_guess }}</span>
+            } @else {
+              <span class="verdict">Ingen gissning</span>
+            }
+          </li>
+        }
+      </ul>
+
+      <a class="primary" routerLink="/">Gå tillbaka</a>
+    }
+  }
+</div>
