@@ -19,6 +19,7 @@ import { Activities } from './pages/activities/activities';
 import { Editor } from './pages/editor/editor';
 import { Supabase } from './supabase';
 import { Order } from './pages/order/order';
+import { GamePlay } from './pages/game-play/game-play';
 
 // Spelsidorna kräver en inloggad spelare, annars startskärmen.
 const inRoom = async () => {
@@ -58,6 +59,7 @@ export const routes: Routes = [
   { path: 'aktiviteter/vem-svarade', component: WhoAnswered, canActivate: [inRoom] },
   { path: 'aktiviteter/sortera', component: Order, canActivate: [inRoom] },
   { path: 'spel', component: Game, canActivate: [inRoom] },
+  { path: 'spel/:game', component: GamePlay, canActivate: [inRoom] },
   { path: 'uppdrag', component: Missions, canActivate: [inRoom] },
   { path: 'topplista', component: Leaderboard, canActivate: [inRoom] },
   { path: 'verktyg', component: AdminTools, canActivate: [adminInRoom] },

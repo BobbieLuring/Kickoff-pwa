@@ -1,0 +1,55 @@
+<div class="page">
+  <a class="back" routerLink="/spel">← Spel</a>
+
+  @if (!info) {
+    <p class="lead">Det spelet finns inte.</p>
+  } @else {
+    <h1 class="page-title">{{ info.title }}</h1>
+    <p class="lead">{{ info.description }}</p>
+
+    @switch (state()?.phase) {
+      @case ('closed') {
+        <p class="lead">Spelet öppnar snart.</p>
+      }
+      @case ('open') {
+        @if (rules) {
+          <app-game-canvas [rules]="rules" (finished)="onFinished($event)" />
+        }
+        <p class="best">
+          @if (myBest() !== null) {
+            Ditt bästa: <strong>{{ myBest() }}</strong>
+          } @else {
+            Du har inte spelat än.
+          }
+        </p>
+        @if (message()) {
+          <p class="error">{{ message() }}</p>
+        }
+      }
+      @case ('finished') {
+        <p class="lead">Spelet är avslutat. Poängen har lagts till på topplistan.</p>
+      }
+    }
+
+    @if (state()?.highscores?.length) {
+      <h2>Topplista</h2>
+      <ol class="scores">
+        @for (h of state()!.highscores; track h.player_id) {
+          <li>
+            <span class="rank">{{ h.rank }}</span>
+            <span class="who">
+              {{ h.username }}
+              @if (h.player_id === state()!.my_player_id) {
+                <span class="you">Du</span>
+              }
+            </span>
+            <span class="score">{{ h.best }}</span>
+            @if (h.points !== null) {
+              <span class="points">+{{ h.points }}</span>
+            }
+          </li>
+        }
+      </ol>
+    }
+  }
+</div>

@@ -1,0 +1,91 @@
+.page {
+  padding: 16px 20px 24px;
+}
+
+.back {
+  display: inline-block;
+  margin-bottom: 12px;
+  font-size: 13px;
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+.lead {
+  margin: 0 0 16px;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.best {
+  margin: 12px 0 0;
+  font-size: 14px;
+  color: var(--text-muted);
+  text-align: center;
+
+  strong {
+    color: var(--text);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.error {
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: var(--down);
+  text-align: center;
+}
+
+h2 {
+  margin: 28px 0 8px;
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.scores {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 44px;
+    padding: 0 8px;
+    border-bottom: 1px solid var(--line);
+    font-size: 15px;
+  }
+
+  .rank {
+    width: 18px;
+    font-size: 12px;
+    color: var(--text-faint);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .who {
+    flex: 1;
+  }
+
+  .you {
+    margin-left: 6px;
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--accent);
+  }
+
+  .score {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .points {
+    min-width: 36px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--up);
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+}

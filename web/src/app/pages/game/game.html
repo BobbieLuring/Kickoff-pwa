@@ -1,1 +1,24 @@
-<p>game works!</p>
+<div class="page">
+  <h1 class="page-title">Spel</h1>
+  <p class="page-lead">Bästa resultatet räknas. Placeringen ger poäng när värden stänger spelet.</p>
+
+  <ol>
+    @for (item of items(); track item.key) {
+      <li>
+        <a [routerLink]="['/spel', item.key]" [class]="item.status">
+          <span class="title">
+            {{ item.title }}
+            <span class="desc">{{ item.description }}</span>
+          </span>
+          @if (item.status === 'open') {
+            <span class="stamp open">Öppet</span>
+          } @else if (item.status === 'closed') {
+            <span class="stamp done">Avslutat</span>
+          } @else {
+            <span class="soon-text">{{ statusLabels.soon }}</span>
+          }
+        </a>
+      </li>
+    }
+  </ol>
+</div>

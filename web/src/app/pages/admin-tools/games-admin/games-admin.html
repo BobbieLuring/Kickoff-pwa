@@ -1,0 +1,33 @@
+@if (overview(); as o) {
+  <section>
+    <h2>Spel</h2>
+
+    <ol class="games">
+      @for (g of o.games; track g.key) {
+        @if (visible(g)) {
+          <li>
+            <div class="info">
+              <span class="title">{{ title(g.key) }}</span>
+              <span class="phase">
+                {{ phaseLabels[g.phase] }}
+                @if (g.phase !== 'closed') {
+                  · {{ g.played_count }} av {{ o.player_count }} har spelat
+                }
+              </span>
+            </div>
+
+            @if (g.phase === 'closed') {
+              <button type="button" class="action" [disabled]="busy()" (click)="advance(g)">Öppna</button>
+            } @else if (g.phase === 'open') {
+              <button type="button" class="action" [disabled]="busy()" (click)="advance(g)">Avsluta</button>
+            }
+          </li>
+        }
+      }
+    </ol>
+
+    @if (error()) {
+      <p class="error">{{ error() }}</p>
+    }
+  </section>
+}

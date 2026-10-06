@@ -44,4 +44,12 @@ export class RoomSections {
   status(key: string): SectionStatus {
     return toStatus(this.phases()[key]);
   }
+
+/** Status för flera aktiviteter tillsammans: öppen om någon är öppen, avslutad om alla är avslutade. */
+  combinedStatus(keys: string[]): SectionStatus {
+    const statuses = keys.map((k) => this.status(k));
+    if (statuses.includes('open')) return 'open';
+    if (statuses.every((s) => s === 'closed')) return 'closed';
+    return 'soon';
+  }
 }

@@ -1,0 +1,16 @@
+:host {
+  display: block;
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  max-width: 420px;
+  aspect-ratio: 320 / 420;
+  margin: 0 auto;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+}
