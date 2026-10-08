@@ -1,0 +1,28 @@
+@if (overview(); as o) {
+  <section>
+    <div class="head">
+      <h2>Quiz</h2>
+      <span class="phase">{{ phaseLabel() }}</span>
+    </div>
+
+    <p class="count">{{ o.question_count }} frågor</p>
+    @if (o.phase !== 'closed') {
+      <p class="count">{{ o.answered_count }} av {{ o.player_count }} har svarat på alla</p>
+    }
+
+    @if (error()) {
+      <p class="error">{{ error() }}</p>
+    }
+
+    @if (nextAction(); as label) {
+      <button
+        type="button"
+        class="advance"
+        [disabled]="busy() || (o.phase === 'closed' && o.question_count === 0)"
+        (click)="advance()"
+      >
+        {{ label }}
+      </button>
+    }
+  </section>
+}

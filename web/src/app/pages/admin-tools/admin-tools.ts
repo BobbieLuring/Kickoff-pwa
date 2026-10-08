@@ -6,10 +6,11 @@ import { OrderAdmin } from './order-admin/order-admin';
 import { GamesAdmin } from './games-admin/games-admin';
 import { PhotoAdmin } from './photo-admin/photo-admin';
 import { MissionsAdmin } from './missions-admin/missions-admin';
+import { QuizAdmin } from './quiz-admin/quiz-admin';
 
 /** Admin-fliken i rummet. Adminfunktionerna läggs till här steg för steg. */
 @Component({
-  imports: [WhoAdmin, OrderAdmin, GamesAdmin, PhotoAdmin, MissionsAdmin],
+  imports: [WhoAdmin, OrderAdmin, GamesAdmin, PhotoAdmin, MissionsAdmin, QuizAdmin],
   selector: 'app-admin-tools',
   styleUrl: './admin-tools.scss',
   templateUrl: './admin-tools.html',

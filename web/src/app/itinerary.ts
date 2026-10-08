@@ -41,6 +41,12 @@ export const STOPS: Stop[] = [
     path: '/aktiviteter/vems-bild',
     openText: 'Gissa vems bilden är',
   },
+  {
+    keys: ['quiz'],
+    title: 'Quiz',
+    path: '/aktiviteter/quiz',
+    openText: 'Sex frågor, tre alternativ',
+  },
 ];
 
 /** Texter för stopp som inte har öppnat än. Varieras så att listan inte säger samma sak överallt. */

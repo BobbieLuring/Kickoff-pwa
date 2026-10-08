@@ -1,0 +1,88 @@
+<div class="page">
+  <h1 class="page-title">Quiz</h1>
+
+  @switch (state()?.phase) {
+    @case ('closed') {
+      <p class="page-lead">Inte öppnad än. Värden öppnar quizet snart.</p>
+    }
+
+    @case ('open') {
+      <p class="page-lead">
+        {{ answeredCount() }} av {{ questions().length }} besvarade. Du kan ändra tills värden stänger quizet.
+      </p>
+
+      <ol class="questions">
+        @for (q of questions(); track q.id; let i = $index) {
+          <li>
+            <p class="q-text">{{ q.text }}</p>
+            <div class="options">
+              @for (c of choices; track c) {
+                <button type="button" [class.chosen]="q.my_choice === c" (click)="answer(q, c)">
+                  <span class="letter">{{ c.toUpperCase() }}</span>
+                  {{ option(q, c) }}
+                </button>
+              }
+            </div>
+          </li>
+        }
+      </ol>
+
+      @if (error()) {
+        <p class="error">{{ error() }}</p>
+      }
+
+      <a class="primary" routerLink="/">Gå tillbaka</a>
+    }
+
+    @case ('finished') {
+      <p class="summary">
+        Du fick <strong>{{ state()?.my_points ?? 0 }}</strong> poäng
+        @if (myRank()) {
+          · {{ myRank() }} plats
+        }
+      </p>
+      <p class="page-lead">{{ correctCount() }} av {{ questions().length }} rätt</p>
+
+      <ol class="scores">
+        @for (s of scores(); track s.player_id) {
+          <li>
+            <span class="display rank">{{ s.rank }}</span>
+            <span class="who">
+              {{ s.username }}
+              @if (s.player_id === myPlayerId()) {
+                <span class="you">Du</span>
+              }
+            </span>
+            <span class="display points">{{ s.points }}</span>
+          </li>
+        }
+      </ol>
+
+      <h2>Rätt svar</h2>
+      <ol class="questions results">
+        @for (q of questions(); track q.id) {
+          <li>
+            <p class="q-text">{{ q.text }}</p>
+            <div class="options">
+              @for (c of choices; track c) {
+                <span
+                  class="result-option"
+                  [class.correct]="q.correct === c"
+                  [class.wrong]="q.my_choice === c && q.correct !== c"
+                >
+                  <span class="letter">{{ c.toUpperCase() }}</span>
+                  {{ option(q, c) }}
+                  @if (q.my_choice === c) {
+                    <span class="mine">ditt svar</span>
+                  }
+                </span>
+              }
+            </div>
+          </li>
+        }
+      </ol>
+
+      <a class="primary" routerLink="/">Gå tillbaka</a>
+    }
+  }
+</div>

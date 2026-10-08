@@ -22,6 +22,7 @@ import { Order } from './pages/order/order';
 import { GamePlay } from './pages/game-play/game-play';
 import { Photo } from './pages/photo/photo';
 import { Schedule } from './pages/schedule/schedule';
+import { Quiz } from './pages/quiz/quiz';
 
 // Spelsidorna kräver en inloggad spelare, annars startskärmen.
 const inRoom = async () => {
@@ -61,6 +62,7 @@ export const routes: Routes = [
   { path: 'aktiviteter/vem-svarade', component: WhoAnswered, canActivate: [inRoom] },
   { path: 'aktiviteter/sortera', component: Order, canActivate: [inRoom] },
   { path: 'aktiviteter/vems-bild', component: Photo, canActivate: [inRoom] },
+  { path: 'aktiviteter/quiz', component: Quiz, canActivate: [inRoom] },
   // Spelen ligger under Aktiviteter, så att den fliken är markerad medan man spelar.
   { path: 'aktiviteter/spel', component: Game, canActivate: [inRoom] },
   { path: 'aktiviteter/spel/:game', component: GamePlay, canActivate: [inRoom] },

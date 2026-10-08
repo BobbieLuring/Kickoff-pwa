@@ -1,0 +1,91 @@
+<section>
+  <h2>Quiz</h2>
+  <p class="lead">Skriv frågor med tre alternativ och markera vilket som är rätt. Sex frågor är lagom.</p>
+
+  @if (!editable()) {
+    <p class="locked">Quizet har öppnats och kan inte ändras längre.</p>
+  }
+
+  <ol class="questions">
+    @for (q of questions(); track q.id) {
+      <li>
+        <span class="q-text">{{ q.text }}</span>
+        <span class="options">
+          @for (c of choices; track c) {
+            <span class="option" [class.correct]="q.correct === c">{{ c.toUpperCase() }}: {{ option(q, c) }}</span>
+          }
+        </span>
+        @if (editable()) {
+          <div class="row-actions">
+            <button type="button" class="text" [disabled]="busy()" (click)="edit(q)">Redigera</button>
+            <button type="button" class="text" [disabled]="busy()" (click)="remove(q)">Ta bort</button>
+          </div>
+        }
+      </li>
+    } @empty {
+      <li class="empty">Inga frågor än.</li>
+    }
+  </ol>
+
+  <p class="count">{{ questions().length }} av 6 frågor</p>
+
+  @if (editable()) {
+    <form (submit)="$event.preventDefault(); save()">
+      <p class="form-title">{{ draft().id ? 'Redigera fråga' : 'Ny fråga' }}</p>
+
+      <label for="quiz-text">Fråga</label>
+      <input
+        id="quiz-text"
+        maxlength="200"
+        placeholder="Vilken tid avgår Birka?"
+        [value]="draft().text"
+        (input)="setField('text', $any($event.target).value)"
+      />
+
+      <p class="hint">Fyll i alternativen och tryck på det som är rätt.</p>
+      <input
+        maxlength="100"
+        aria-label="Alternativ A"
+        placeholder="A"
+        [value]="draft().option_a"
+        (input)="setField('option_a', $any($event.target).value)"
+      />
+      <input
+        maxlength="100"
+        aria-label="Alternativ B"
+        placeholder="B"
+        [value]="draft().option_b"
+        (input)="setField('option_b', $any($event.target).value)"
+      />
+      <input
+        maxlength="100"
+        aria-label="Alternativ C"
+        placeholder="C"
+        [value]="draft().option_c"
+        (input)="setField('option_c', $any($event.target).value)"
+      />
+
+      <div class="correct-pick" role="group" aria-label="Rätt svar">
+        <span>Rätt svar:</span>
+        @for (c of choices; track c) {
+          <button type="button" [class.chosen]="draft().correct === c" (click)="setCorrect(c)">
+            {{ c.toUpperCase() }}
+          </button>
+        }
+      </div>
+
+      @if (error()) {
+        <p class="error">{{ error() }}</p>
+      }
+
+      <div class="actions">
+        @if (draft().id) {
+          <button type="button" class="secondary" (click)="cancel()">Avbryt</button>
+        }
+        <button type="submit" class="primary" [disabled]="busy()">
+          {{ draft().id ? 'Spara' : 'Lägg till' }}
+        </button>
+      </div>
+    </form>
+  }
+</section>

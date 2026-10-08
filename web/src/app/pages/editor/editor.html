@@ -27,6 +27,7 @@
     <button type="button" class="primary" (click)="newRound()">Ny runda</button>
 
     <app-editor-missions />
+    <app-editor-quiz />
   } @else {
     <form (submit)="$event.preventDefault(); save()">
       <label for="title">Titel</label>
