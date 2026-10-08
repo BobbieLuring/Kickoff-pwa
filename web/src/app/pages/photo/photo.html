@@ -30,7 +30,7 @@
         </button>
         <button type="button" class="link" [disabled]="busy()" (click)="chooseAnother()">Välj en annan</button>
       } @else {
-        <p class="page-lead">Välj en bild från ditt bildbibliotek. Sen gissar alla vems bilden är.</p>
+        <p class="page-lead">Välj en bild från ditt bildbibliotek. Se till att bilden inte är för lätt men det ska ändå kunna gå att gissa.</p>
 
         @if (error()) {
           <p class="error">{{ error() }}</p>
