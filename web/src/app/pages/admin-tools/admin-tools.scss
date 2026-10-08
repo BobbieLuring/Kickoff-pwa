@@ -46,3 +46,17 @@ h1 {
   font: inherit;
   font-size: 13px;
 }
+
+.switch-room {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  margin-top: 40px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+}

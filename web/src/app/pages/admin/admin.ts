@@ -54,8 +54,10 @@ export class Admin implements OnInit {
         );
         return;
       }
+      // Ladda om appen i det nya rummet, så att allt som hör till rummet (onlineprickar, meddelanden,
+      // topplistan) startar om där i stället för att ligga kvar i det förra rummet.
       this.player.reset();
-      this.router.navigateByUrl('/');
+      window.location.assign(document.baseURI);
     } catch (e) {
       this.error.set(`Något gick fel: ${(e as Error).message}`);
     } finally {

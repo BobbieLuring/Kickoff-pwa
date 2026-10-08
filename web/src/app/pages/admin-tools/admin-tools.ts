@@ -1,4 +1,5 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { PlayerSession } from '../../player-session';
 import { Supabase } from '../../supabase';
 import { WhoAdmin } from './who-admin/who-admin';
@@ -10,7 +11,7 @@ import { QuizAdmin } from './quiz-admin/quiz-admin';
 
 /** Admin-fliken i rummet. Adminfunktionerna läggs till här steg för steg. */
 @Component({
-  imports: [WhoAdmin, OrderAdmin, GamesAdmin, PhotoAdmin, MissionsAdmin, QuizAdmin],
+  imports: [RouterLink, WhoAdmin, OrderAdmin, GamesAdmin, PhotoAdmin, MissionsAdmin, QuizAdmin],
   selector: 'app-admin-tools',
   styleUrl: './admin-tools.scss',
   templateUrl: './admin-tools.html',

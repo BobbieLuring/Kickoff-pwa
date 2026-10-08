@@ -25,17 +25,38 @@ export class LeaderboardData {
     this.refresh();
 
     // Ringklockan: meddelandet säger bara "något har ändrats", innehållet används inte.
+    // Nya spelresultat ringer också, eftersom öppna spel ger preliminära poäng på topplistan.
     this.channel = this.supabase
       .channel('point-awards')
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'point_awards' }, () =>
         this.refresh(),
       )
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'game_scores' }, () =>
+        this.refresh(),
+      )
       .subscribe();
+
+    // Säkerhetsnät för det som inte ringer på klockan, t.ex. att en ny spelare går med.
+    setInterval(() => {
+      if (document.visibilityState === 'visible') this.refresh();
+    }, 15000);
 
     // Telefoner tappar anslutningen när skärmen är släckt, så hämta igen när appen visas.
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible') this.refresh();
     });
+  }
+
+  /** Hämtar listan direkt om någon av spelarna inte finns i den än, t.ex. en ny spelare som just kommit online. */
+  refreshIfUnknown(playerIds: Iterable<string>) {
+    if (!this.channel) return;
+    const known = new Set(this.entries().map((e) => e.playerId));
+    for (const id of playerIds) {
+      if (!known.has(id)) {
+        this.refresh();
+        return;
+      }
+    }
   }
 
   async refresh() {

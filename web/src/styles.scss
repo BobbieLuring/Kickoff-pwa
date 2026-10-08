@@ -51,6 +51,8 @@ body {
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
+  // Ingen zoom vid snabba dubbeltryck, t.ex. i spelen.
+  touch-action: manipulation;
 }
 
 // ── Delade klasser för resplans-temat ───────────────────────────

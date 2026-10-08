@@ -1,5 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { RealtimeChannel } from '@supabase/supabase-js';
+import { LeaderboardData } from '../leaderboard-data';
 import { Supabase } from '../supabase';
 
 /**
@@ -9,6 +10,7 @@ import { Supabase } from '../supabase';
 @Injectable({ providedIn: 'root' })
 export class Presence {
   private readonly supabase = inject(Supabase).client;
+  private readonly leaderboard = inject(LeaderboardData);
   private channel: RealtimeChannel | null = null;
 
   /** Spelar-id för alla som är online i rummet. */
@@ -27,7 +29,10 @@ export class Presence {
 
     channel
       .on('presence', { event: 'sync' }, () => {
-        this.online.set(new Set(Object.keys(channel.presenceState())));
+        const online = new Set(Object.keys(channel.presenceState()));
+        this.online.set(online);
+        // En ny spelare som just gått med syns här först, så topplistan hämtas direkt.
+        this.leaderboard.refreshIfUnknown(online);
       })
       .subscribe((status) => {
         if (status === 'SUBSCRIBED' && document.visibilityState === 'visible') channel.track({});
