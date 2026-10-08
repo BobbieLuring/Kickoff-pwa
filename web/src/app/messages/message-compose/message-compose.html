@@ -1,0 +1,24 @@
+@if (composer.target(); as target) {
+  <div class="backdrop" (click)="close()"></div>
+  <form class="sheet" role="dialog" [attr.aria-label]="'Meddelande till ' + target.name" (submit)="$event.preventDefault(); send()">
+    <p class="title">Meddelande till {{ target.name }}</p>
+    <textarea
+      #field
+      rows="2"
+      [maxLength]="maxLength"
+      aria-label="Meddelande"
+      [value]="text()"
+      (input)="text.set($any($event.target).value)"
+    ></textarea>
+    <p class="meta">
+      @if (error()) {
+        <span class="error">{{ error() }}</span>
+      }
+      <span class="counter">{{ text().length }}/{{ maxLength }}</span>
+    </p>
+    <div class="actions">
+      <button type="button" class="secondary" (click)="close()">Avbryt</button>
+      <button type="submit" class="primary" [disabled]="busy() || !text().trim()">Skicka</button>
+    </div>
+  </form>
+}

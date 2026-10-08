@@ -3,8 +3,11 @@
 @if (podium().length) {
   <div class="podium">
     @for (p of podium(); track p.playerId) {
-      <div class="step" [class]="'step place-' + p.place">
+      <div class="step" [class]="'step place-' + p.place" (click)="message(p.playerId, p.name)">
         <span class="name">
+          @if (online().has(p.playerId)) {
+            <span class="dot" aria-label="Online"></span>
+          }
           {{ p.name }}
           @if (p.playerId === myPlayerId()) {
             <span class="you">Du</span>
@@ -26,9 +29,12 @@
 
 <ol class="rest">
   @for (row of rest(); track row.playerId) {
-    <li>
+    <li (click)="message(row.playerId, row.name)">
       <span class="display rank">{{ row.rank }}</span>
       <span class="name">
+        @if (online().has(row.playerId)) {
+          <span class="dot" aria-label="Online"></span>
+        }
         {{ row.name }}
         @if (row.playerId === myPlayerId()) {
           <span class="you">Du</span>

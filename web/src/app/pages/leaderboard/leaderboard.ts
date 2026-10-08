@@ -1,5 +1,7 @@
 import { Component, computed, effect, inject, signal, untracked } from '@angular/core';
 import { LeaderboardData } from '../../leaderboard-data';
+import { MessageComposer } from '../../messages/message-composer';
+import { Presence } from '../../messages/presence';
 import { LeaderboardEntry } from './leaderboard-entry';
 import { loadLastSeenRanks, saveLastSeenRanks } from './last-seen-ranks';
 
@@ -11,6 +13,10 @@ import { loadLastSeenRanks, saveLastSeenRanks } from './last-seen-ranks';
 })
 export class Leaderboard {
   private readonly data = inject(LeaderboardData);
+  private readonly composer = inject(MessageComposer);
+
+  /** Spelare med appen öppen just nu: får en grön prick. */
+  protected readonly online = inject(Presence).online;
 
   protected readonly entries = this.data.entries;
   protected readonly myPlayerId = this.data.myPlayerId;
@@ -51,6 +57,12 @@ export class Leaderboard {
       // Whatever is shown now becomes the baseline for the next visit.
       saveLastSeenRanks(me, entries);
     });
+  }
+
+  /** Easter egg: tap a name to send that player a message. Not yourself. */
+  protected message(playerId: string, name: string) {
+    if (playerId === this.myPlayerId()) return;
+    this.composer.open(playerId, name);
   }
 
   /** Positive = moved up, negative = moved down, 0 = same or new. */

@@ -4,6 +4,8 @@
   <app-header [playerName]="headerText()" />
   <router-outlet />
   @if (!outsideRoom()) {
+    <app-message-bubbles />
+    <app-message-compose />
     <app-bottom-nav />
   }
 }

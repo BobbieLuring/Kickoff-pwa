@@ -1,0 +1,8 @@
+<div class="bubbles" aria-live="polite">
+  @for (m of messages.visible(); track m.id) {
+    <button type="button" class="bubble" (click)="reply(m)">
+      <span class="from">{{ m.sender_name }}</span>
+      <span class="text">{{ m.text }}</span>
+    </button>
+  }
+</div>

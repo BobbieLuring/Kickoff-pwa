@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, effect, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Data, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter, map } from 'rxjs';
@@ -8,9 +8,13 @@ import { Install } from './install/install';
 import { InstallGuide } from './install/install-guide/install-guide';
 import { PlayerSession } from './player-session';
 import { AdminSession } from './admin-session';
+import { MessageBubbles } from './messages/message-bubbles/message-bubbles';
+import { MessageCompose } from './messages/message-compose/message-compose';
+import { Messages } from './messages/messages';
+import { Presence } from './messages/presence';
 
 @Component({
-  imports: [RouterOutlet, Header, BottomNav, InstallGuide],
+  imports: [RouterOutlet, Header, BottomNav, InstallGuide, MessageBubbles, MessageCompose],
   selector: 'app-root',
   styleUrl: './app.scss',
   templateUrl: './app.html',
@@ -45,4 +49,16 @@ export class App {
     if (this.data()['adminPage']) return this.admin.name() ?? 'Admin';
     return this.outsideRoom() ? '' : (this.player.current()?.username ?? '');
   });
+
+  constructor() {
+    // Så fort spelaren är i ett rum: onlineprickarna och meddelanden (även missade) startar.
+    const presence = inject(Presence);
+    const messages = inject(Messages);
+    effect(() => {
+      const me = this.player.current();
+      if (this.outsideRoom() || !me) return;
+      presence.start(me.id);
+      messages.start();
+    });
+  }
 }

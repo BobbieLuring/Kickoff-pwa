@@ -12,7 +12,7 @@ interface RegisterResult {
 
 const ERRORS: Record<NonNullable<RegisterResult['error']>, string> = {
   invalid_pin: 'PIN-koden måste vara fyra siffror.',
-  invalid_name: 'Namnet måste vara 1–30 tecken.',
+  invalid_name: 'Namnet måste vara 1–12 tecken.',
   name_taken: 'Namnet är redan taget i det här rummet.',
 };
 

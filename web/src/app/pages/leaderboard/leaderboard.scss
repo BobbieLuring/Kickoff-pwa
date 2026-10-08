@@ -132,6 +132,22 @@ h1 {
   }
 }
 
+// Grön prick för den som har appen öppen. Det enda synliga tecknet på påskägget.
+.dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: var(--up);
+  vertical-align: 2px;
+}
+
+.step,
+.rest li {
+  cursor: pointer;
+}
+
 .you {
   margin-left: 4px;
   font-size: 10px;
