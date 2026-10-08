@@ -13,6 +13,8 @@ interface LeaderboardResult {
 export class LeaderboardData {
   private readonly supabase = inject(Supabase).client;
   private channel: RealtimeChannel | null = null;
+  /** En schemalagd hämtning efter ringklockan, så att många ringningar i rad blir en enda hämtning. */
+  private pendingRefresh: ReturnType<typeof setTimeout> | null = null;
 
   readonly entries = signal<LeaderboardEntry[]>([]);
   readonly myPlayerId = signal('');
@@ -29,10 +31,10 @@ export class LeaderboardData {
     this.channel = this.supabase
       .channel('point-awards')
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'point_awards' }, () =>
-        this.refresh(),
+        this.refreshSoon(),
       )
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'game_scores' }, () =>
-        this.refresh(),
+        this.refreshSoon(),
       )
       .subscribe();
 
@@ -45,6 +47,18 @@ export class LeaderboardData {
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible') this.refresh();
     });
+  }
+
+  /**
+   * Strypning av ringklockan: när flera spelar samtidigt kan den ringa många gånger i sekunden.
+   * Alla ringningar inom 2 sekunder samlas till en hämtning i slutet av perioden.
+   */
+  private refreshSoon() {
+    if (this.pendingRefresh) return;
+    this.pendingRefresh = setTimeout(() => {
+      this.pendingRefresh = null;
+      this.refresh();
+    }, 2000);
   }
 
   /** Hämtar listan direkt om någon av spelarna inte finns i den än, t.ex. en ny spelare som just kommit online. */
