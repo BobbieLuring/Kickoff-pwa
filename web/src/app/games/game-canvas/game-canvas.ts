@@ -46,9 +46,26 @@ export class GameCanvas {
       const observer = new ResizeObserver(resize);
       observer.observe(canvas);
       resize();
+
+      // iOS gör snabba tryck till egna gester (dubbeltryck som scrollar sidan) även med
+      // touch-action: none. preventDefault på själva touch-händelserna stoppar det; spelet får
+      // ändå sina tryck via pointerdown. Måste registreras som "passive: false" för att få stoppa.
+      const stopGesture = (event: Event) => event.preventDefault();
+      const options = { passive: false };
+      canvas.addEventListener('touchstart', stopGesture, options);
+      canvas.addEventListener('touchmove', stopGesture, options);
+      canvas.addEventListener('touchend', stopGesture, options);
+      canvas.addEventListener('dblclick', stopGesture);
+
       this.readColors();
       this.loop(canvas);
-      this.destroyRef.onDestroy(() => observer.disconnect());
+      this.destroyRef.onDestroy(() => {
+        observer.disconnect();
+        canvas.removeEventListener('touchstart', stopGesture);
+        canvas.removeEventListener('touchmove', stopGesture);
+        canvas.removeEventListener('touchend', stopGesture);
+        canvas.removeEventListener('dblclick', stopGesture);
+      });
     });
 
     this.destroyRef.onDestroy(() => (this.destroyed = true));
