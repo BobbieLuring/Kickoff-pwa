@@ -14,7 +14,7 @@ export class BottomNav {
   private readonly baseItems = [
     { label: 'Hem', path: '/' },
     { label: 'Aktiviteter', path: '/aktiviteter' },
-    { label: 'Spel', path: '/spel' },
+    { label: 'Schema', path: '/schema' },
     { label: 'Uppdrag', path: '/uppdrag' },
     { label: 'Topplista', path: '/topplista' },
   ];

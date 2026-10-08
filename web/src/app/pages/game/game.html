@@ -5,7 +5,7 @@
   <ol>
     @for (item of items(); track item.key) {
       <li>
-        <a [routerLink]="['/spel', item.key]" [class]="item.status">
+        <a [routerLink]="['/aktiviteter/spel', item.key]" [class]="item.status">
           <span class="title">
             {{ item.title }}
             <span class="desc">{{ item.description }}</span>

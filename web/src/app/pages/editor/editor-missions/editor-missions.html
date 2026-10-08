@@ -1,0 +1,64 @@
+<section>
+  <h2>Uppdrag</h2>
+  <p class="lead">
+    Skriv ett hemligt uppdrag per rad. Varje spelare får ett eget. Nämner du en kollega,
+    skriv en reserv om spelaren råkar få sitt eget namn, t.ex. "Är du Johan: få Anna att säga det."
+  </p>
+
+  @if (!editable()) {
+    <p class="locked">Uppdragen har öppnats och kan inte ändras längre.</p>
+  }
+
+  <ol class="missions">
+    @for (m of missions(); track m.id) {
+      <li>
+        @if (editingId() === m.id) {
+          <textarea
+            rows="3"
+            maxlength="300"
+            aria-label="Uppdragets text"
+            [value]="editText()"
+            (input)="editText.set($any($event.target).value)"
+          ></textarea>
+          <div class="row-actions">
+            <button type="button" class="text" (click)="cancelEdit()">Avbryt</button>
+            <button type="button" class="small-primary" [disabled]="busy() || !editText().trim()" (click)="saveEdit()">
+              Spara
+            </button>
+          </div>
+        } @else {
+          <span class="mission-text">{{ m.text }}</span>
+          @if (editable()) {
+            <div class="row-actions">
+              <button type="button" class="text" [disabled]="busy()" (click)="startEdit(m)">Redigera</button>
+              <button type="button" class="text" [disabled]="busy()" (click)="remove(m)">Ta bort</button>
+            </div>
+          }
+        }
+      </li>
+    } @empty {
+      <li class="empty">Inga uppdrag än.</li>
+    }
+  </ol>
+
+  <p class="count">{{ missions().length }} uppdrag</p>
+
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  }
+
+  @if (editable()) {
+    <form (submit)="$event.preventDefault(); add()">
+      <label for="new-mission">Nytt uppdrag</label>
+      <textarea
+        id="new-mission"
+        rows="3"
+        maxlength="300"
+        placeholder="Få Johan att säga 'banan' utan att han märker något."
+        [value]="newText()"
+        (input)="newText.set($any($event.target).value)"
+      ></textarea>
+      <button type="submit" class="primary" [disabled]="busy() || !newText().trim()">Lägg till</button>
+    </form>
+  }
+</section>

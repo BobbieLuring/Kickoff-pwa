@@ -26,7 +26,7 @@ export const STOPS: Stop[] = [
   {
     keys: GAMES.map((g) => g.key),
     title: 'Spel',
-    path: '/spel',
+    path: '/aktiviteter/spel',
     openText: 'Jaga highscore',
   },
   {

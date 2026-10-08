@@ -1,0 +1,100 @@
+.page {
+  padding: 8px 20px 24px;
+}
+
+// Uppdraget som ett mörkt kort, i samma stil som boardingkortet.
+.card {
+  position: relative;
+  margin: 8px 0 16px;
+  padding: 20px 18px 22px;
+  border-radius: 16px;
+  background: var(--text);
+  color: var(--bg);
+
+  .stamp {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    color: var(--accent-inverse);
+  }
+
+  .label {
+    margin: 0 0 8px;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+
+  .mission {
+    margin: 0;
+    padding-right: 40px;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.35;
+    white-space: pre-wrap;
+  }
+}
+
+.error {
+  margin: 0 0 8px;
+  font-size: 13px;
+  color: var(--down);
+}
+
+.primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 52px;
+  margin-top: 16px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--text);
+  color: var(--bg);
+  font: inherit;
+  font-weight: 500;
+  text-decoration: none;
+
+  &:disabled {
+    opacity: 0.4;
+  }
+}
+
+.reveal {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 2px solid var(--text);
+
+  li {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .who {
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .you {
+    margin-left: 4px;
+    font-size: 10px;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+
+  .mission-text {
+    font-size: 15px;
+    line-height: 1.4;
+    white-space: pre-wrap;
+
+    &.none {
+      color: var(--text-faint);
+    }
+  }
+}

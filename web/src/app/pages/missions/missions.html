@@ -1,1 +1,51 @@
-<p>missions works!</p>
+<div class="page">
+  <h1 class="page-title">Uppdrag</h1>
+
+  @switch (state()?.phase) {
+    @case ('closed') {
+      <p class="page-lead">Inte öppnad än. Värden öppnar uppdragen snart.</p>
+    }
+
+    @case ('open') {
+      @if (state()?.my_mission; as mission) {
+        <section class="card" aria-label="Ditt hemliga uppdrag">
+          <span class="stamp">Hemligt</span>
+          <p class="label">Ditt uppdrag</p>
+          <p class="mission">{{ mission }}</p>
+        </section>
+        <p class="page-lead">Berätta inte för någon. Alla uppdrag avslöjas på båten.</p>
+        <a class="primary" routerLink="/">Gå tillbaka</a>
+      } @else {
+        <p class="page-lead">
+          Dra ett hemligt uppdrag. Du får ett slumpat uppdrag som bara du vet om, och du kan inte byta.
+        </p>
+
+        @if (error()) {
+          <p class="error">{{ error() }}</p>
+        }
+
+        <button type="button" class="primary" [disabled]="busy()" (click)="claim()">
+          {{ busy() ? 'Drar…' : 'Dra uppdrag' }}
+        </button>
+      }
+    }
+
+    @case ('revealed') {
+      <p class="page-lead">Alla uppdrag är avslöjade.</p>
+
+      <ul class="reveal">
+        @for (r of state()?.reveal ?? []; track r.player_id) {
+          <li>
+            <span class="who">
+              {{ r.username }}
+              @if (r.player_id === state()?.my_player_id) {
+                <span class="you">Du</span>
+              }
+            </span>
+            <span class="mission-text" [class.none]="!r.mission">{{ r.mission ?? 'Inget uppdrag' }}</span>
+          </li>
+        }
+      </ul>
+    }
+  }
+</div>

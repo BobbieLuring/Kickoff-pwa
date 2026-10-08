@@ -1,0 +1,159 @@
+.page {
+  padding: 8px 20px 24px;
+}
+
+p {
+  margin: 0;
+}
+
+section {
+  margin-top: 28px;
+}
+
+h2 {
+  margin: 0 0 6px;
+  padding-top: 14px;
+  border-top: 2px solid var(--text);
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.note,
+.text {
+  margin-bottom: 10px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--text-muted);
+}
+
+.text {
+  color: var(--text);
+}
+
+.warning {
+  margin-top: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+// Fartyget som ett mörkt kort, i samma stil som boardingkortet.
+.pass {
+  margin-top: 8px;
+  padding: 16px 18px;
+  border-radius: 16px;
+  background: var(--text);
+  color: var(--bg);
+
+  .label {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+
+  .ship {
+    margin-top: 2px;
+    font-size: 17px;
+    font-weight: 500;
+  }
+
+  .legs {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 14px;
+  }
+
+  .right {
+    text-align: right;
+  }
+
+  .time {
+    font-size: 44px;
+  }
+
+  .sub {
+    margin-top: 2px;
+    font-size: 12px;
+    opacity: 0.8;
+  }
+}
+
+.trips,
+.checklist,
+.facts,
+.program {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.trips li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+
+  .who {
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  .detail {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+}
+
+.program li {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line);
+
+  &.day {
+    padding-top: 14px;
+    border-bottom: 0;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .at {
+    min-width: 72px;
+    font-size: 20px;
+  }
+
+  .what {
+    font-size: 15px;
+    line-height: 1.4;
+  }
+}
+
+.checklist li,
+.facts li {
+  position: relative;
+  padding: 8px 0 8px 22px;
+  border-bottom: 1px solid var(--line);
+  font-size: 14px;
+  line-height: 1.45;
+
+  &::before {
+    position: absolute;
+    left: 0;
+    top: 8px;
+  }
+}
+
+.checklist li::before {
+  content: '☐';
+}
+
+.facts li::before {
+  content: '→';
+  color: var(--accent);
+}

@@ -21,6 +21,7 @@ import { Supabase } from './supabase';
 import { Order } from './pages/order/order';
 import { GamePlay } from './pages/game-play/game-play';
 import { Photo } from './pages/photo/photo';
+import { Schedule } from './pages/schedule/schedule';
 
 // Spelsidorna kräver en inloggad spelare, annars startskärmen.
 const inRoom = async () => {
@@ -60,8 +61,13 @@ export const routes: Routes = [
   { path: 'aktiviteter/vem-svarade', component: WhoAnswered, canActivate: [inRoom] },
   { path: 'aktiviteter/sortera', component: Order, canActivate: [inRoom] },
   { path: 'aktiviteter/vems-bild', component: Photo, canActivate: [inRoom] },
-  { path: 'spel', component: Game, canActivate: [inRoom] },
-  { path: 'spel/:game', component: GamePlay, canActivate: [inRoom] },
+  // Spelen ligger under Aktiviteter, så att den fliken är markerad medan man spelar.
+  { path: 'aktiviteter/spel', component: Game, canActivate: [inRoom] },
+  { path: 'aktiviteter/spel/:game', component: GamePlay, canActivate: [inRoom] },
+  // Gamla adresserna, om någon har dem sparade.
+  { path: 'spel', redirectTo: 'aktiviteter/spel' },
+  { path: 'spel/:game', redirectTo: 'aktiviteter/spel/:game' },
+  { path: 'schema', component: Schedule, canActivate: [inRoom] },
   { path: 'uppdrag', component: Missions, canActivate: [inRoom] },
   { path: 'topplista', component: Leaderboard, canActivate: [inRoom] },
   { path: 'verktyg', component: AdminTools, canActivate: [adminInRoom] },

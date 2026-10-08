@@ -1,6 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { SortList } from '../../layout/sort-list/sort-list';
 import { Supabase } from '../../supabase';
+import { EditorMissions } from './editor-missions/editor-missions';
 
 type RoundPhase = 'closed' | 'open' | 'finished';
 
@@ -33,7 +34,7 @@ const emptyRows = (): DraftRow[] => Array.from({ length: 6 }, () => ({ label: ''
 
 /** Redaktörens sida: en utomstående lägger in Sortera-rundorna för ett rum. */
 @Component({
-  imports: [SortList],
+  imports: [SortList, EditorMissions],
   selector: 'app-editor',
   styleUrl: './editor.scss',
   templateUrl: './editor.html',

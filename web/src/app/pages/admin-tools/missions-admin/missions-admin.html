@@ -1,0 +1,26 @@
+@if (overview(); as o) {
+  <section>
+    <div class="head">
+      <h2>Uppdrag</h2>
+      <span class="phase">{{ phaseLabel() }}</span>
+    </div>
+
+    <p class="count">{{ o.mission_count }} uppdrag · {{ o.player_count }} spelare</p>
+    @if (o.phase !== 'closed') {
+      <p class="count">{{ o.claimed_count }} av {{ o.player_count }} har dragit ett uppdrag</p>
+    }
+    @if (tooFew() && o.phase !== 'revealed') {
+      <p class="warning">Färre uppdrag än spelare. Be redaktören lägga till fler.</p>
+    }
+
+    @if (error()) {
+      <p class="error">{{ error() }}</p>
+    }
+
+    @if (nextAction(); as label) {
+      <button type="button" class="advance" [disabled]="busy()" (click)="advance()">
+        {{ label }}
+      </button>
+    }
+  </section>
+}
