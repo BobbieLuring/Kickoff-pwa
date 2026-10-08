@@ -10,4 +10,7 @@ export const NEXT_STOP_PHRASES = [
   'Cinode',
   'Palms livbåt',
   '1 on 1 med Martin',
+  'One Rejlers',
+  'Skeppets fängelse',
+  'AfterWork'
 ];

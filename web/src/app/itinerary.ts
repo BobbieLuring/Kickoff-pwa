@@ -50,4 +50,4 @@ export const STOPS: Stop[] = [
 ];
 
 /** Texter för stopp som inte har öppnat än. Varieras så att listan inte säger samma sak överallt. */
-export const SOON_TEXTS = ['Väntar på att Johannes ska komma in', 'Snart', 'Robert sover', 'Caj ska bara på toa först', 'Martin sitter i möte', 'Jonas vabbar', 'Palm vabbar', 'Mattias äter yogurt', 'Hampus går med hunden'];
+export const SOON_TEXTS = ['Väntar på att Johannes ska komma in', 'Snart', 'Robert sover', 'Caj ska bara på toa först', 'Martin sitter i möte', 'Jonas vabbar', 'Palm vabbar', 'Mattias äter yogurt', 'Hampus går med hunden', 'Väntar på att Daniel ska komma ner', 'Jonas är hos veterinären'];
